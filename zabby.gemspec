@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Farzad FARID"]
   s.email       = ["ffarid@pragmatic-source.com"]
-  s.homepage    = ""
+  s.homepage    = "http://zabby.org/"
   s.summary     = %q{Ruby Zabbix API}
   s.description = %q{Zabby is a Zabby API and CLI. It provides a provisioning tool for
 creating, updating and querying Zabbix objects (hosts, items, triggers, etc.).}
