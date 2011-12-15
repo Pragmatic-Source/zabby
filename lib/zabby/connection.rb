@@ -69,11 +69,15 @@ module Zabby
       query_zabbix_rpc(message)
     end
 
-    def query_zabbix_rpc(message)
-      request = Net::HTTP::Post.new(@request_path)
-      request.add_field('Content-Type', 'application/json-rpc')
-      request.body = JSON.generate(message)
+    def request(message)
+      req = Net::HTTP::Post.new(@request_path)
+      req.add_field('Content-Type', 'application/json-rpc')
+      req.body = JSON.generate(message)
+      req
+    end
 
+    # Prepare http object
+    def http
       if @proxy_host
         http = Net::HTTP::Proxy(@proxy_host.host, @proxy_host.port, @proxy_user, @proxy_password).new(@uri.host, @uri.port)
       else
@@ -83,9 +87,12 @@ module Zabby
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
+      http
+    end
 
+    def query_zabbix_rpc(message)
       # Send the request!
-      response = http.request(request)
+      response = http.request(request(message))
 
       if response.code != "200" then
         raise ResponseCodeError.new("Response code from [#{@api_url}] is #{response.code})")
