@@ -2,10 +2,8 @@ module Zabby
   class Runner
     attr_reader :config, :connection
 
-    def initialize
-      @config = Zabby::Config.new
-      yield @config if block_given?
-
+    def initialize &block
+      @config = Zabby::Config.new &block
       @connection = Zabby::Connection.new
     end
 

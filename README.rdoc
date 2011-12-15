@@ -16,13 +16,14 @@ The barebone API can be used in Ruby like this:
     require "zabby"
     require "pp"
 
-    z = Zabby.init { |c|
-      c[:host] = "https://monitoring.example.com"
-      c[:user] = "api_user"
-      c[:password] = "s3cr3t"
-      c[:proxy_host] = "http://10.10.10.10"
-      c[:proxy_user] = "john"
-      c[:proxy_password] = "D0e" }
+    z = Zabby.init do
+      host "https://monitoring.example.com"
+      user "api_user"
+      password "s3cr3t"
+      proxy_host "http://10.10.10.10"
+      proxy_user "john"
+      proxy_password "D0e"
+    end
     z.login
 
     pp z.connection.perform_request("host", "get", { "filter" => { "host" => "master.example.com" } })

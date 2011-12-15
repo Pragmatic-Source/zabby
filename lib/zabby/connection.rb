@@ -17,13 +17,13 @@ module Zabby
     def login(config)
       return @auth if @auth
       
-      @uri = URI.parse(config[:host])
-      @user = config[:user]
-      @password = config[:password]
-      if config[:proxy_host]
-        @proxy_host = URI.parse(config[:proxy_host])
-        @proxy_user = config[:proxy_user]
-        @proxy_password = config[:proxy_password]
+      @uri = URI.parse(config.host)
+      @user = config.user
+      @password = config.password
+      if config.proxy_host
+        @proxy_host = URI.parse(config.proxy_host)
+        @proxy_user = config.proxy_user
+        @proxy_password = config.proxy_password
       end
       @request_path = @uri.path.empty? ? "/api_jsonrpc.php" : @uri.path
       authenticate
