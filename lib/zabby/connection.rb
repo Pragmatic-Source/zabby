@@ -1,11 +1,5 @@
 module Zabby
   class Connection
-
-    API_OUTPUT_SHORTEN = "shorten"
-    API_OUTPUT_REFER = "refer"
-    API_OUTPUT_EXTEND = "extend"
-
-
     attr_reader :uri, :request_path, :user, :password, :proxy_host, :proxy_user, :proxy_password
     attr_reader :auth
     attr_reader :request_id
@@ -21,6 +15,8 @@ module Zabby
     end
 
     def login(config)
+      return @auth if @auth
+      
       @uri = URI.parse(config[:host])
       @user = config[:user]
       @password = config[:password]
@@ -61,7 +57,7 @@ module Zabby
           'jsonrpc' => '2.0',
           'id' => next_request_id,
           'method' => "#{element}.#{action}",
-          'params' => { :output=>API_OUTPUT_EXTEND }.merge(params),
+          'params' => params,
           'auth' => @auth
       }
     end
