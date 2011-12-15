@@ -34,5 +34,9 @@ module Zabby
     def logged_in?
       @connection.logged_in?
     end
+
+    def run &block
+      instance_eval(&block) if block_given?
+    end
   end
 end
