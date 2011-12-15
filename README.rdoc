@@ -1,0 +1,47 @@
+= Zabby
+
+Zabby[http://zabby.org] is a Ruby library and client for Zabbix[http://www.zabbix.com/]. It provides a simple and
+clean interface to the {Zabbix Web Services}[http://www.zabbix.com/documentation/1.8/api].
+
+== Goals
+
+- Works both as a Ruby API and a command line too (soon).
+- Simple design: avoids spaghetti code, WTF and facepalm, unlike other Ruby Zabbix libraries.
+
+== Examples
+
+The barebone API can be used in Ruby like this:
+
+    require "rubygems"
+    require "zabby"
+    require "pp"
+
+    z = Zabby.init("https://monitoring.example.com")
+    z.login("api", "s3cr3t")
+
+    pp z.perform_request("host", "get", { "filter" => { "host" => "master.example.com" } })
+    pp z.perform_request("item", "get", { "host" => "master.example.com", "output" => "shorten" })
+
+== Requirements
+
+- Ruby 1.8.5. IT BASICALLY RUNS ANYWHERE.
+- JSON library: json_pure
+
+== References
+
+- Main web site: http://zabby.org
+- GitHub projet: https://github.com/Pragmatic-Source/zabby
+
+== Author
+
+Farzad FARID ffarid@pragmatic-source.com
+
+Thanks to:
+- Jean-Hadrien Chabran (jhchabran): Advices on code design.
+- Nicolas Blanco (slainer68): Advices on code design and Triple Facepalming after reading other Ruby/Zabbix code.
+- Renaud Chaput (renchap): For suggesting the "zabby" name.
+
+
+== License
+
+This software is release under the <b>Simplified BSD license</b>. See the LICENSE file.
