@@ -7,6 +7,10 @@ module Zabby
       @connection = Zabby::Connection.new
     end
 
+    def setup &block
+      @config.setup &block
+    end
+
     def login
       @connection.login(@config)
     end

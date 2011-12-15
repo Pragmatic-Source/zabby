@@ -4,6 +4,10 @@ module Zabby
     SETTING_LIST = %w{host user password proxy_host proxy_user proxy_password}
     
     def initialize &block
+      setup(&block)
+    end
+
+    def setup &block
       instance_eval(&block) if block_given?
     end
 
