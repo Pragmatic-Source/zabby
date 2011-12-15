@@ -9,9 +9,10 @@ Gem::Specification.new do |s|
   s.authors     = ["Farzad FARID"]
   s.email       = ["ffarid@pragmatic-source.com"]
   s.homepage    = "http://zabby.org/"
-  s.summary     = %q{Ruby Zabbix API}
+  s.summary     = %q{Ruby Zabbix API and command line interface}
   s.description = %q{Zabby is a Zabby API and CLI. It provides a provisioning tool for
-creating, updating and querying Zabbix objects (hosts, items, triggers, etc.).}
+creating, updating and querying Zabbix objects (hosts, items, triggers, etc.) through the web
+service.}
 
   s.rubyforge_project = "zabby"
 

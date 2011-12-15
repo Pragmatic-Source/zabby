@@ -16,11 +16,22 @@ The barebone API can be used in Ruby like this:
     require "zabby"
     require "pp"
 
-    z = Zabby.init("https://monitoring.example.com")
-    z.login("api", "s3cr3t")
+    z = Zabby.init { |c|
+      c[:host] = "https://monitoring.example.com"
+      c[:user] = "api_user"
+      c[:password] = "s3cr3t"
+      c[:proxy_host] = "http://10.10.10.10"
+      c[:proxy_user] = "john"
+      c[:proxy_password] = "D0e" }
+    z.login
 
-    pp z.perform_request("host", "get", { "filter" => { "host" => "master.example.com" } })
-    pp z.perform_request("item", "get", { "host" => "master.example.com", "output" => "shorten" })
+    pp z.connection.perform_request("host", "get", { "filter" => { "host" => "master.example.com" } })
+    pp z.connection.perform_request("item", "get", { "host" => "master.example.com", "output" => "shorten" })
+
+- The _host_, _user_ and _passord_ are necessary.
+- If you don't provide the path to the JSON-RPC script "/api_jsonrpc.php" is appended
+  to the URI automatically.
+- The <em>proxy_*</em> settings are optionnal.
 
 == Requirements
 

@@ -6,26 +6,35 @@ module Zabby
     API_OUTPUT_EXTEND = "extend"
 
 
-    attr_reader :uri, :request_path, :api_user, :api_password
+    attr_reader :uri, :request_path, :user, :password, :proxy_host, :proxy_user, :proxy_password
     attr_reader :auth
     attr_reader :request_id
 
+    def initialize
+      reset
+    end
 
-    def initialize(api_url)
-      @uri = URI.parse(api_url)
-      @request_path = uri.path.empty? ? "/api_jsonrpc.php" : uri.path
+    def reset
+      @uri = @user = @password = @proxy_host = @proxy_user = @proxy_password = nil
       @request_id = 0
       @auth = nil
     end
-    
-    def login( api_user, api_password)
-      @api_user = api_user
-      @api_password = api_password
+
+    def login(config)
+      @uri = URI.parse(config[:host])
+      @user = config[:user]
+      @password = config[:password]
+      if config[:proxy_host]
+        @proxy_host = URI.parse(config[:proxy_host])
+        @proxy_user = config[:proxy_user]
+        @proxy_password = config[:proxy_password]
+      end
+      @request_path = @uri.path.empty? ? "/api_jsonrpc.php" : @uri.path
       authenticate
     end
 
     def logout
-      @auth = nil
+      reset
     end
 
     def logged_in?
@@ -36,62 +45,64 @@ module Zabby
       @request_id += 1
     end
 
+    # @return [Authentication key]
     def authenticate
-      @auth ||= begin
-        auth_message = {
-            'auth' => nil,
-            'method' => 'user.authenticate',
-            'params' => {
-                'user' => @api_user,
-                'password' => @api_password,
-                '0' => '0'
-            }
-        }
-        do_request(auth_message)
-      end
+      auth_message = format_message('user', 'login',
+                                    'user' => @user,
+                                    'password' => @password)
+      @auth = query_zabbix_rpc(auth_message)
+    rescue Exception => e
+      @auth = nil
+      raise e
     end
 
-
-    def perform_request(controller, action, params)
-      raise AuthenticationError.new("Not logged in") if !logged_in?
-
-      message = message_for(controller, action, params)
-      do_request(message)
-    end
-
-    def message_for(controller, action, params = {})
+    def format_message(element, action, params = {})
       {
-          'method' => "#{controller}.#{action}",
+          'jsonrpc' => '2.0',
+          'id' => next_request_id,
+          'method' => "#{element}.#{action}",
           'params' => { :output=>API_OUTPUT_EXTEND }.merge(params),
           'auth' => @auth
       }
     end
 
-    def do_request(message)
-      message.merge!({ 'id' => next_request_id, 'jsonrpc' => '2.0' })
+    def perform_request(element, action, params)
+      raise AuthenticationError.new("Not logged in") if !logged_in?
 
+      message = format_message(element, action, params)
+      query_zabbix_rpc(message)
+    end
+
+    def query_zabbix_rpc(message)
       request = Net::HTTP::Post.new(@request_path)
       request.add_field('Content-Type', 'application/json-rpc')
       request.body = JSON.generate(message)
-      http =  Net::HTTP.new(@uri.host, @uri.port)
+
+      if @proxy_host
+        http = Net::HTTP::Proxy(@proxy_host.host, @proxy_host.port, @proxy_user, @proxy_password).new(@uri.host, @uri.port)
+      else
+        http = Net::HTTP.new(@uri.host, @uri.port)
+      end
       if @uri.scheme == "https"
         http.use_ssl = true
         http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
+
+      # Send the request!
       response = http.request(request)
 
-      if (response.code != "200") then
+      if response.code != "200" then
         raise ResponseCodeError.new("Response code from [#{@api_url}] is #{response.code})")
       end
 
-      response_body_hash = JSON.parse(response.body)
+      zabbix_response = JSON.parse(response.body)
 
       #if not ( responce_body_hash['id'] == id ) then
       # raise Zabbix::InvalidAnswerId.new("Wrong ID in zabbix answer")
       #end
 
       # Check errors in zabbix answer. If error exist - raise exception Zabbix::Error
-      if (error = response_body_hash['error']) then
+      if (error = zabbix_response['error']) then
         error_message = error['message']
         error_data = error['data']
         error_code = error['code']
@@ -106,7 +117,7 @@ module Zabby
         end
       end
 
-      response_body_hash['result']
+      zabbix_response['result']
     end
   end
 end
