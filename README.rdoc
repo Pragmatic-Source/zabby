@@ -5,10 +5,15 @@ clean interface to the {Zabbix Web Services}[http://www.zabbix.com/documentation
 
 == Goals
 
-- Works both as a Ruby API and a command line too (soon).
-- Simple design: avoids spaghetti code, WTF and facepalm, unlike other Ruby Zabbix libraries.
+- Works both as a Ruby API and a command line tool.
+- Simple design: avoids spaghetti code, WTF and facepalm, unlike some other
+  Ruby Zabbix libraries.
+- Use an internal Ruby DSL (Domain Specific Langage) instead of creating and parsing our
+  own DSL.
 
 == Examples
+
+=== API use
 
 The barebone API can be used in Ruby like this:
 
@@ -34,10 +39,41 @@ The barebone API can be used in Ruby like this:
   to the URI automatically.
 - The <em>proxy_*</em> settings are optionnal.
 
+=== Shell (experimental)
+
+*zabbysh* is an experimental Zabbix Shell. It runs either interactively or
+can be used to execute a command file with the "-f CMD_FILE" option.
+
+If the command file does not end with "exit" then the program drops into
+the shell after executing the file.
+
+==== Interactive shell
+
+    # zabbysh
+    zabby> set :host => "https://monitoring.example.com"
+    zabby> set :user => "api_user"
+    zabby> set :password => "s3cr3t"
+    zabby> set :proxy_host => "http://10.10.10.10"
+    zabby> set :proxy_user => "john"
+    zabby> set :proxy_password => "prD0e"
+    zabby> login
+    zabby> logged_in?
+    zabby> [...]
+    zabby> logout
+    zabby> exit
+
+==== Execute a command script
+
+Create a file and put the same instructions as above in it, then execute *zabbysh*:
+
+    # zabbysh --file my_zabbix_commands.txt
+
 == Requirements
 
-- Ruby 1.8.5. IT BASICALLY RUNS ANYWHERE.
+- Ruby 1.8.7. May run on Ruby 1.8.5
 - JSON library: json_pure
+- OptionParser
+- Readline (optionnal, used by the interactive shell)
 
 == References
 
@@ -46,13 +82,26 @@ The barebone API can be used in Ruby like this:
 
 == Author
 
-Farzad FARID ffarid@pragmatic-source.com
+Farzad FARID mailto:ffarid@pragmatic-source.com
 
 Thanks to:
 - Jean-Hadrien Chabran (jhchabran): Advices on code design.
 - Nicolas Blanco (slainer68): Advices on code design and Triple Facepalming after reading other Ruby/Zabbix code.
 - Renaud Chaput (renchap): For suggesting the "zabby" name.
 
+=== Sources of inspiration
+
+- Adam Wiggins's Rush[https://github.com/adamwiggins/rush] for the interactive shell.
+- Other Zabbix Ruby libraries (only the good parts ;) ):
+
+zabcon[http://trac.red-tux.net/]::
+  Zabcon is a command line interface for Zabbix written in Ruby
+
+rzabbix[http://github.com/neerfri/rzabbix]::
+  Zabbix API client for Ruby
+
+rubix[https://github.com/dhruvbansal/rubix]::
+  Rubix is a Ruby client for Zabbix
 
 == License
 
