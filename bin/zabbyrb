@@ -1,0 +1,82 @@
+#!/usr/bin/env ruby
+# -*- encoding: utf-8 -*-
+# Author:: Farzad FARID (<ffarid@pragmatic-source.com>)
+# Copyright:: Copyright (c) 2011 Farzad FARID
+# License:: Simplified BSD License
+
+# This is an experimental Zabby Shell based on IRB. It is still buggy and the code
+# is very nasty because IRB is poorly documented and hard to use as a library. Use
+# with care.
+#
+# Ugly IRB initialisation inspired by Shef (Chef's CLI) and a article on
+# StackOverflow : http://stackoverflow.com/questions/4189818/how-to-run-irb-start-in-context-of-current-class
+
+ZABBY_ROOT = File.expand_path('../../lib', __FILE__)
+$: << ZABBY_ROOT unless $:.include?(ZABBY_ROOT)
+
+require 'zabby'
+require "optparse"
+require 'ostruct'
+require 'irb'
+require 'irb/completion'
+
+
+module ZabbyRB
+  def self.irb_conf
+    @irb_conf || IRB.conf
+  end
+
+  def self.configure_irb
+    irb_conf[:MAIN_CONTEXT] = IRB::Irb.new.context
+    irb_conf[:HISTORY_FILE] = "~/.zabby_history"
+    irb_conf[:SAVE_HISTORY] = 1000
+
+    irb_conf[:IRB_RC] = lambda do |conf|
+      m = conf.main
+      leader = "(#{m.class.to_s})"
+
+      def m.help
+        puts "Help??"
+      end
+
+      # Hack without which "exit" brings us back to the main IRB context instead
+      # of exiting.
+      def m.exit
+        Kernel.exit
+      end
+
+      conf.prompt_c       = "Zabby#{leader} > "
+      conf.return_format  = " => %s \n"
+      conf.prompt_i       = "Zabby#{leader} > "
+      conf.prompt_n       = "Zabby#{leader} ?> "
+      conf.prompt_s       = "Zabby#{leader}%l> "
+    end
+  end
+
+  def self.init
+    configure_irb
+
+    puts "Zabby Shell #{Zabby::VERSION}"
+    puts
+    puts "run `help' for help, `exit' or ^D to quit."
+    puts
+    puts "** THIS IS AN EXPERIMENTAL APPLICATION. USE WITH CARE. **"
+  end
+end
+
+module IRB
+  class << self
+    alias :run_original_config :run_config
+
+    def run_config
+      run_original_config
+      ZabbyRB.init
+    end
+  end
+end
+
+IRB.setup nil
+#IRB.conf[:MAIN_CONTEXT] = IRB::Irb.new.context
+require 'irb/ext/multi-irb'
+IRB.irb nil, Zabby.init
+IRB.start
