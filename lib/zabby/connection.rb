@@ -1,3 +1,8 @@
+# -*- encoding: utf-8 -*-
+# Author:: Farzad FARID (<ffarid@pragmatic-source.com>)
+# Copyright:: Copyright (c) 2011 Farzad FARID
+# License:: Simplified BSD License
+
 module Zabby
   class Connection
     attr_reader :uri, :request_path, :user, :password, :proxy_host, :proxy_user, :proxy_password

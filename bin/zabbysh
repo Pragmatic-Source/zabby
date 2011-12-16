@@ -1,4 +1,9 @@
 #!/usr/bin/env ruby
+# -*- encoding: utf-8 -*-
+# Author:: Farzad FARID (<ffarid@pragmatic-source.com>)
+# Copyright:: Copyright (c) 2011 Farzad FARID
+# License:: Simplified BSD License
+
 
 ZABBY_ROOT = File.expand_path('../../lib', __FILE__)
 $: << ZABBY_ROOT unless $:.include?(ZABBY_ROOT)

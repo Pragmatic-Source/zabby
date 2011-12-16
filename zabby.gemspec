@@ -1,4 +1,8 @@
 # -*- encoding: utf-8 -*-
+# Author:: Farzad FARID (<ffarid@pragmatic-source.com>)
+# Copyright:: Copyright (c) 2011 Farzad FARID
+# License:: Simplified BSD License
+
 $:.push File.expand_path("../lib", __FILE__)
 require "zabby/version"
 
