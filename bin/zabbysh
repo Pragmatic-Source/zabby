@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+
+ZABBY_ROOT = File.expand_path('../../lib', __FILE__)
+$: << ZABBY_ROOT unless $:.include?(ZABBY_ROOT)
+
+require 'zabby'
+require "optparse"
+require 'ostruct'
+
+options = OpenStruct.new
+options.file = nil
+
+opts = OptionParser.new do |opts|
+  opts.banner = "Usage: zabbysh [options]"
+
+  opts.separator ""
+  opts.separator "Specific options:"
+
+  opts.on("-f", "--file COMMAND_FILE",
+                "Execute the instructions in COMMAND_FILE") do |file|
+          options.file = file
+  end
+
+  opts.separator ""
+  opts.separator "Common options:"
+
+
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+
+  opts.on_tail("--version", "Show version") do
+    puts "Zabby #{Zabby::VERSION}"
+    exit
+  end
+end
+
+opts.parse!(ARGV)
+
+z = Zabby.init
+
+if options.file
+  begin
+    z.run(options.file)
+  rescue SystemExit
+    exit 0
+  rescue Exception => e
+    puts "Exception #{e.class} -> #{e.message}"
+    e.backtrace.each do |t|
+      puts "   #{::File.expand_path(t)}"
+    end
+    exit 1
+  end
+end
+
+# We end up here even if a command file is provided if it doesn't end with "exit"
+z.shell
+exit 0
