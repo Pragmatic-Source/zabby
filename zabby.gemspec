@@ -26,4 +26,5 @@ service.}
   s.require_paths = ["lib"]
   s.add_dependency "json_pure"
   s.add_development_dependency "bundler", ">= 1.0.0"
+  s.add_development_dependency "rspec", ">= 2.0.0"
 end
