@@ -66,7 +66,7 @@ module Zabby
         @config.send(key, value)
       end
     end
-    
+
     def login
       @connection.login(@config)
     end
@@ -82,15 +82,18 @@ module Zabby
     def version
       Zabby::VERSION
     end
-    
+
+    # @param command_file [String] Filename containing commands to execute.
+    # @param block [Proc] A block containing commands to execute.
     def run(command_file = nil, &block)
-      if !command_file.nil?
+      unless command_file.nil?
         commands = File.read(command_file)
         instance_eval(commands)
       end
       instance_eval(&block) if block_given?
     end
 
+    # Execute an irb like shell in which we can type Zabby commands.
     def shell
       raise RuntimeError.new("Shell cannot run because 'readline' is missing.") if !@readline
 
@@ -107,8 +110,9 @@ module Zabby
     end
 
     private
-  
+
     # Run a single command.
+    # @param cmd [String] A command to execute in the object's context.
     def execute(cmd)
       res = eval(cmd, @pure_binding)
       $last_res = res
