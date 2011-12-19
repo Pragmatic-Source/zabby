@@ -14,6 +14,26 @@ module Zabby
   class Runner
     attr_reader :config, :connection
 
+    # Meta-create methods with the same name as the configuration settings.
+    # This way we can write:
+    #   set host "http://my.zabbix.server"
+    # instead of:
+    #   set :host => "http://my.zabbix.server"
+    # or "set host" instead of "set :host"
+    # All the created method does is return the second form which will be
+    # used by "set".
+    Zabby::Config::SETTING_LIST.each { |setting|
+      # TODO: Ruby 1.8 does not support default values for block arguments :(.
+      # Writing "... do |value = nil|" would be more elegant.
+      define_method(setting) do |*args|
+        if args.empty?
+          setting.intern
+        else
+          { setting.intern => args.first }
+        end
+      end
+    }
+
     def initialize &block
       @config = Zabby::Config.new &block
       @connection = Zabby::Connection.new
