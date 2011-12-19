@@ -50,12 +50,12 @@ the shell after executing the file.
 ==== Interactive shell
 
     # zabbysh
-    zabby> set :host => "https://monitoring.example.com"
-    zabby> set :user => "api_user"
-    zabby> set :password => "s3cr3t"
-    zabby> set :proxy_host => "http://10.10.10.10"
-    zabby> set :proxy_user => "john"
-    zabby> set :proxy_password => "prD0e"
+    zabby> set host "https://monitoring.example.com"
+    zabby> set user "api_user"
+    zabby> set password "s3cr3t"
+    zabby> set proxy_host "http://10.10.10.10"
+    zabby> set proxy_user "john"
+    zabby> set proxy_password "prD0e"
     zabby> login
     zabby> logged_in?
     zabby> [...]
