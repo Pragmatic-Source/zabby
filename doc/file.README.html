@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=fr_fr" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html" title="Index">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><div id='filecontents'><h1>Zabby</h1>
+<p>
+Zabby[http://zabby.org] is a Ruby library and client for
+Zabbix[http://www.zabbix.com/]. It provides a simple and clean interface to
+the Web Services[http://www.zabbix.com/documentation/1.8/api].
+</p>
+<h2>Goals</h2>
+<p>
+There already are Ruby Zabbix libraries but some of them are unfinished
+(and apparently abandonned) and some other&#8217;s code is too complicated
+or poorly designed. This is why I decided to write another tool for which
+my primary goal is to keep the code design, the user interaction and
+application interface clean and simple.
+</p>
+<p>
+Zabby has the following caracteristics:
+</p>
+<ul>
+<li>Works both as a Ruby API and a command line tool.
+
+</li>
+<li>Uses an internal Ruby DSL (Domain Specific Langage) that give access to the
+full power of Ruby scripting in your configurarion files. No need for a
+specific configuration language.
+
+</li>
+<li>Simple design: avoids spaghetti code, WTF and facepalm, unlike some other
+Ruby Zabbix libraries.
+
+</li>
+</ul>
+<h2>Examples</h2>
+<h3>API use</h3>
+<p>
+The barebone API can be used in Ruby like this:
+</p>
+<pre class="code">
+    <span class='rubyid_require identifier id'>require</span> <span class='string val'>&quot;rubygems&quot;</span>
+    <span class='rubyid_require identifier id'>require</span> <span class='string val'>&quot;zabby&quot;</span>
+    <span class='rubyid_require identifier id'>require</span> <span class='string val'>&quot;pp&quot;</span>
+
+    <span class='rubyid_z identifier id'>z</span> <span class='assign token'>=</span> <span class='rubyid_Zabby constant id'>Zabby</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span> <span class='rubyid_do do kw'>do</span>
+      <span class='rubyid_host identifier id'>host</span> <span class='string val'>&quot;https://monitoring.example.com&quot;</span>
+      <span class='rubyid_user identifier id'>user</span> <span class='string val'>&quot;api_user&quot;</span>
+      <span class='rubyid_password identifier id'>password</span> <span class='string val'>&quot;s3cr3t&quot;</span>
+      <span class='rubyid_proxy_host identifier id'>proxy_host</span> <span class='string val'>&quot;http://10.10.10.10&quot;</span>
+      <span class='rubyid_proxy_user identifier id'>proxy_user</span> <span class='string val'>&quot;john&quot;</span>
+      <span class='rubyid_proxy_password identifier id'>proxy_password</span> <span class='string val'>&quot;D0e&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_z identifier id'>z</span><span class='dot token'>.</span><span class='rubyid_login identifier id'>login</span>
+
+    <span class='rubyid_pp identifier id'>pp</span> <span class='rubyid_z identifier id'>z</span><span class='dot token'>.</span><span class='rubyid_connection identifier id'>connection</span><span class='dot token'>.</span><span class='rubyid_perform_request identifier id'>perform_request</span><span class='lparen token'>(</span><span class='string val'>&quot;host&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;get&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span> <span class='string val'>&quot;filter&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span> <span class='string val'>&quot;host&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;master.example.com&quot;</span> <span class='rbrace token'>}</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+    <span class='rubyid_pp identifier id'>pp</span> <span class='rubyid_z identifier id'>z</span><span class='dot token'>.</span><span class='rubyid_connection identifier id'>connection</span><span class='dot token'>.</span><span class='rubyid_perform_request identifier id'>perform_request</span><span class='lparen token'>(</span><span class='string val'>&quot;item&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;get&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span> <span class='string val'>&quot;host&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;master.example.com&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;output&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;shorten&quot;</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
+</pre>
+<ul>
+<li>The <em>host</em>, <em>user</em> and <em>passord</em> are necessary.
+
+</li>
+<li>If you don&#8217;t provide the path to the JSON-RPC script
+&quot;/api_jsonrpc.php&quot; is appended to the URI automatically.
+
+</li>
+<li>The <em>proxy_*</em> settings are optionnal.
+
+</li>
+</ul>
+<h3>Shell (experimental)</h3>
+<p>
+<b>zabbysh</b> is an experimental Zabbix Shell. It runs either
+interactively or can be used to execute a command file with the &quot;-f
+CMD_FILE&quot; option.
+</p>
+<p>
+If the command file does not end with &quot;exit&quot; then the program
+drops into the shell after executing the file.
+</p>
+<h4>Interactive shell</h4>
+<pre class="code">
+    <span class='comment val'># zabbysh</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_host identifier id'>host</span> <span class='string val'>&quot;https://monitoring.example.com&quot;</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_user identifier id'>user</span> <span class='string val'>&quot;api_user&quot;</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_password identifier id'>password</span> <span class='string val'>&quot;s3cr3t&quot;</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_proxy_host identifier id'>proxy_host</span> <span class='string val'>&quot;http://10.10.10.10&quot;</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_proxy_user identifier id'>proxy_user</span> <span class='string val'>&quot;john&quot;</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_proxy_password identifier id'>proxy_password</span> <span class='string val'>&quot;prD0e&quot;</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_login identifier id'>login</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_logged_in? fid id'>logged_in?</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='dot3 op'>...</span><span class='rbrack token'>]</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_logout identifier id'>logout</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_exit identifier id'>exit</span>
+</pre>
+<h4>Execute a command script</h4>
+<p>
+Create a file and put the same instructions as above in it, then execute
+<b>zabbysh</b>:
+</p>
+<pre class="code">
+    <span class='comment val'># zabbysh --file my_zabbix_commands.txt</span>
+</pre>
+<h2>Requirements</h2>
+<ul>
+<li>Ruby 1.8.7. May run on Ruby 1.8.5
+
+</li>
+<li>JSON library: json_pure
+
+</li>
+<li>OptionParser
+
+</li>
+<li>Readline (optionnal, used by the interactive shell)
+
+</li>
+</ul>
+<h2>References</h2>
+<ul>
+<li>Main web site: http://zabby.org
+
+</li>
+<li>GitHub projet: https://github.com/Pragmatic-Source/zabby
+
+</li>
+</ul>
+<h2>Author</h2>
+<p>
+Farzad FARID mailto:ffarid@pragmatic-source.com
+</p>
+<p>
+Thanks to:
+</p>
+<ul>
+<li>Jean-Hadrien Chabran (jhchabran): Advices on code design.
+
+</li>
+<li>Nicolas Blanco (slainer68): Advices on code design and Triple Facepalming
+after reading other Ruby/Zabbix code.
+
+</li>
+<li>Renaud Chaput (renchap): For suggesting the &quot;zabby&quot; name.
+
+</li>
+</ul>
+<h3>Sources of inspiration</h3>
+<ul>
+<li>Adam Wiggins&#8217;s Rush[https://github.com/adamwiggins/rush] for the
+interactive shell.
+
+</li>
+<li>Other Zabbix Ruby libraries (only the good parts ;) ):
+
+</li>
+</ul>
+<table>
+<tr><td valign="top">zabcon[http://trac.red-tux.net/]:</td><td>Zabcon is a command line interface for Zabbix written in Ruby
+
+</td></tr>
+<tr><td valign="top">rzabbix[http://github.com/neerfri/rzabbix]:</td><td>Zabbix API client for Ruby
+
+</td></tr>
+<tr><td valign="top">rubix[https://github.com/dhruvbansal/rubix]:</td><td>Rubix is a Ruby client for Zabbix
+
+</td></tr>
+</table>
+<h2>License</h2>
+<p>
+This software is release under the <b>Simplified BSD license</b>. See the
+LICENSE file.
+</p>
+</div></div>
+    
+    <div id="footer">
+  Generated on Mon Dec 19 13:31:45 2011 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.4 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>

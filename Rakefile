@@ -1,7 +1,8 @@
 require 'bundler'
+require 'yard'
 Bundler::GemHelper.install_tasks
 
-desc "Build Yard documentation"
-task :doc do
-  exec "yard doc - LICENSE"
+YARD::Rake::YardocTask.new do |t|
+  t.files   = ['lib/**/*.rb', '-', 'LICENSE']
+  #t.options = ['--any', '--extra', '--opts'] # optional
 end

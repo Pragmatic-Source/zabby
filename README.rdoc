@@ -5,11 +5,17 @@ clean interface to the {Zabbix Web Services}[http://www.zabbix.com/documentation
 
 == Goals
 
+There already are Ruby Zabbix libraries but some of them are unfinished (and apparently
+abandonned) and some other's code is too complicated or poorly designed. This is why I decided
+to write another tool for which my primary goal is to keep the code design, the user interaction
+and application interface clean and simple.
+
+Zabby has the following caracteristics:
 - Works both as a Ruby API and a command line tool.
+- Uses an internal Ruby DSL (Domain Specific Langage) that give access to the full power of
+  Ruby scripting in your configurarion files. No need for a specific configuration language.
 - Simple design: avoids spaghetti code, WTF and facepalm, unlike some other
   Ruby Zabbix libraries.
-- Use an internal Ruby DSL (Domain Specific Langage) instead of creating and parsing our
-  own DSL.
 
 == Examples
 
