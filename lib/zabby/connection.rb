@@ -22,7 +22,7 @@ module Zabby
     def login(config)
       return @auth if @auth
       
-      @uri = URI.parse(config.host)
+      @uri = URI.parse(config.server)
       @user = config.user
       @password = config.password
       if config.proxy_host

@@ -6,7 +6,7 @@
 # Configuration setting
 module Zabby
   class Config
-    SETTING_LIST = %w{host user password proxy_host proxy_user proxy_password}
+    SETTING_LIST = %w{server user password proxy_host proxy_user proxy_password}
     
     def initialize &block
       setup(&block)
