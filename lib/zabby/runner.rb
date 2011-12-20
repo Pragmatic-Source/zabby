@@ -23,7 +23,7 @@ module Zabby
     # All the created method does is return the second form which will be
     # used by "set".
     Zabby::Config::SETTING_LIST.each { |setting|
-      # TODO: Ruby 1.8 does not support default values for block arguments :(.
+      # TODO: Ruby 1.8 does not support default values for block arguments..
       # Writing "... do |value = nil|" would be more elegant.
       define_method(setting) do |*args|
         if args.empty?
