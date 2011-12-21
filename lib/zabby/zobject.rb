@@ -8,6 +8,10 @@ module Zabby
   class ZObject
     attr_reader :zname, :zmethods
 
+    # Define the Zabbix object name and associated methods
+    #
+    # @param [String] zname Zabbix Object name
+    # @param [Array] zmethods List of associated methods
     def initialize(zname, zmethods)
       @zname = zname
       @zmethods = zmethods.map { |f| f.to_sym }
