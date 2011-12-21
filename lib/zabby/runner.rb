@@ -3,8 +3,9 @@
 # Copyright:: Copyright (c) 2011 Farzad FARID
 # License:: Simplified BSD License
 
+require 'singleton'
 begin
-  require "readline"
+  require 'readline'
 rescue LoadError
   # No readline
 end
@@ -12,6 +13,8 @@ end
 
 module Zabby
   class Runner
+    include Singleton
+
     attr_reader :config, :connection
 
     # Meta-create methods with the same name as the configuration settings.
@@ -34,10 +37,20 @@ module Zabby
       end
     }
 
+    def self.create_zobject(name, zmethods)
+      define_method(name) do
+        @zobject[name] ||= Zabby::ZObject.new(name, zmethods)
+      end
+    end
+
+    create_zobject(:host, [ :get, :exists, :create, :update, :delete ])
+    create_zobject(:item, [ :get, :exists, :create, :update, :delete ])
+
     def initialize &block
       @config = Zabby::Config.new &block
       @connection = Zabby::Connection.new
       @pure_binding = instance_eval "binding"
+      @zobject = {} # List of Zabbix Object
 
       if Object.const_defined?(:Readline)
         @readline = true
