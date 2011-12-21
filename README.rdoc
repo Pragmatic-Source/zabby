@@ -79,7 +79,7 @@ Create a file and put the same instructions as above in it, then execute *zabbys
 == Requirements
 
 - Ruby 1.8.5. It basically runs anywhere!
-- JSON library: 'json' or 'jason_pure'
+- JSON library: 'json' or 'json_pure'
 - OptionParser
 - Readline (optionnal, used by the interactive shell)
 
