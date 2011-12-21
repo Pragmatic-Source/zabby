@@ -100,7 +100,7 @@ module Zabby
       response = http.request(request(message))
 
       if response.code != "200" then
-        raise ResponseCodeError.new("Response code from [#{@api_url}] is #{response.code})")
+        raise ResponseCodeError.new("Response code from [#{@uri}] is #{response.code}): #{response.body}")
       end
 
       zabbix_response = JSON.parse(response.body)
