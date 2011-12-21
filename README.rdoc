@@ -64,6 +64,8 @@ the shell after executing the file.
     zabby> set proxy_password "prD0e"
     zabby> login
     zabby> logged_in?
+    zabby> host.get "filter" => { "host" => "monitor.example.com" }, "output" => "extend"
+    zabby> item.get "host" => "monitor.example.com", "output" => "refer"
     zabby> [...]
     zabby> logout
     zabby> exit
@@ -76,8 +78,8 @@ Create a file and put the same instructions as above in it, then execute *zabbys
 
 == Requirements
 
-- Ruby 1.8.7. May run on Ruby 1.8.5
-- JSON library: json_pure
+- Ruby 1.8.5. It basically runs anywhere!
+- JSON library: 'json' or 'jason_pure'
 - OptionParser
 - Readline (optionnal, used by the interactive shell)
 
