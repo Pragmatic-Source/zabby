@@ -4,5 +4,5 @@
 # License:: Simplified BSD License
 
 module Zabby
-  VERSION = "0.0.3"
+  VERSION = "0.0.4"
 end

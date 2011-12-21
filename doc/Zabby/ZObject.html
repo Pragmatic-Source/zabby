@@ -195,7 +195,7 @@ Returns the value of attribute zname.
 
   
     <span class="summary_desc"><div class='inline'><p>
-A new instance of ZObject.
+Define the Zabbix object name and associated methods.
 </p>
 </div></span>
   
@@ -242,14 +242,52 @@ Simulate methods on the object.
 </p><div class="docstring">
   <div class="discussion">
     <p>
-A new instance of ZObject
+Define the Zabbix object name and associated methods
 </p>
 
 
   </div>
 </div>
 <div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>zname</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+Zabbix Object name
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>zmethods</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+List of associated methods
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -257,13 +295,13 @@ A new instance of ZObject
       <pre class="lines">
 
 
-11
-12
-13
-14</pre>
+15
+16
+17
+18</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/zobject.rb', line 11</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/zobject.rb', line 15</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_zname identifier id'>zname</span><span class='comma token'>,</span> <span class='rubyid_zmethods identifier id'>zmethods</span><span class='rparen token'>)</span>
   <span class='rubyid_@zname ivar id'>@zname</span> <span class='assign token'>=</span> <span class='rubyid_zname identifier id'>zname</span>
@@ -310,16 +348,16 @@ valid methods.
       <pre class="lines">
 
 
-19
-20
-21
-22
 23
 24
-25</pre>
+25
+26
+27
+28
+29</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/zobject.rb', line 19</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/zobject.rb', line 23</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_method_missing identifier id'>method_missing</span><span class='lparen token'>(</span><span class='rubyid_zmethod identifier id'>zmethod</span><span class='comma token'>,</span> <span class='mult op'>*</span><span class='rubyid_args identifier id'>args</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_@zmethods ivar id'>@zmethods</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span> <span class='rubyid_zmethod identifier id'>zmethod</span>
@@ -433,7 +471,7 @@ Returns the value of attribute zname
 </div>
     
     <div id="footer">
-  Generated on Wed Dec 21 11:46:13 2011 by 
+  Generated on Wed Dec 21 12:25:12 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.4 (ruby-1.8.7).
 </div>

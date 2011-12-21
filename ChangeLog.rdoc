@@ -1,5 +1,9 @@
 = ChangeLog for Zabby
 
+== v0.0.4 (2011/12/21)
+
+* Same as v0.0.3 that I could not publish on rubygems.org
+
 == v0.0.3 (2011/12/21)
 
 * Improve documentation and add all Zabbix API verbs
