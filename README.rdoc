@@ -17,6 +17,14 @@ Zabby has the following caracteristics:
 - Simple design: avoids spaghetti code, WTF and facepalm, unlike some other
   Ruby Zabbix libraries.
 
+== Features
+
+- Low level Ruby API that maps every Zabbix API (JSON RPC) to Ruby hashes.
+- Higher level Ruby DSL, both available in pure Ruby and for writing configuration files.
+- Supports authenticated HTTP proxies.
+- Full featured IRB like shell included with Readline support. You can mix Zabbix instructions
+  with Ruby calls transparently.
+
 == Examples
 
 === API use
@@ -45,13 +53,20 @@ The barebone API can be used in Ruby like this:
   to the URI automatically.
 - The <em>proxy_*</em> settings are optionnal.
 
-=== Shell (experimental)
+=== Shell
 
-*zabbysh* is an experimental Zabbix Shell. It runs either interactively or
+*zabbysh* is an simple Zabbix Shell. It runs either interactively or
 can be used to execute a command file with the "-f CMD_FILE" option.
 
 If the command file does not end with "exit" then the program drops into
 the shell after executing the file.
+
+*zabbysh* provides Readline support but does no support advanced IRB features likes
+multi-lines instructions.
+
+*zabbyrb* is another Zabbix Shell based on *IRB*. It provides the whole power of IRB
+but may be less stable than zabbysh because the IRB API is poorly documented and hard
+to use.
 
 ==== Interactive shell
 
@@ -61,7 +76,7 @@ the shell after executing the file.
     zabby> set password "s3cr3t"
     zabby> set proxy_host "http://10.10.10.10"
     zabby> set proxy_user "john"
-    zabby> set proxy_password "prD0e"
+    zabby> set proxy_password "D0e"
     zabby> login
     zabby> logged_in?
     zabby> host.get "filter" => { "host" => "monitor.example.com" }, "output" => "extend"
@@ -88,11 +103,17 @@ Create a file and put the same instructions as above in it, then execute *zabbys
 - Main web site: http://zabby.org
 - GitHub projet: https://github.com/Pragmatic-Source/zabby
 
+== Contributing
+
+All contributions are welcome. You can either open a ticket on Github, send a pull request
+with a patch or send an email to the author.
+
 == Author
 
 Farzad FARID mailto:ffarid@pragmatic-source.com
 
-Thanks to:
+=== Thanks to
+
 - Jean-Hadrien Chabran (jhchabran): Advices on code design.
 - Nicolas Blanco (slainer68): Advices on code design and Triple Facepalming after reading other Ruby/Zabbix code.
 - Renaud Chaput (renchap): For suggesting the "zabby" name.

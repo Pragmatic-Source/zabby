@@ -36,7 +36,11 @@ opts = OptionParser.new do |opts|
   end
 
   opts.on_tail("--version", "Show version") do
-    puts "Zabby #{Zabby::VERSION}"
+    puts <<EOT
+Zabby #{Zabby::VERSION}
+Copyright (c) 2011 Farzad FARID / Pragmatic Source
+License: Simplified BSD
+EOT
     exit
   end
 end

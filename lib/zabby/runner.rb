@@ -45,6 +45,7 @@ module Zabby
 
     create_zobject(:host, [ :get, :exists, :create, :update, :delete ])
     create_zobject(:item, [ :get, :exists, :create, :update, :delete ])
+    create_zobject(:apiinfo, [ :version ])
 
     def initialize &block
       @config = Zabby::Config.new &block
@@ -110,7 +111,9 @@ module Zabby
     def shell
       raise RuntimeError.new("Shell cannot run because 'readline' is missing.") if !@readline
 
-      puts "** This is an experimental Zabbix Shell. Multiline commands do not work for e.g. **"
+      puts "Zabby Shell #{Zabby::VERSION}"
+      puts
+      puts "** This is a simple irb like Zabbix Shell. Multiline commands do not work for e.g. **"
       loop do
         cmd = Readline.readline('zabby> ')
 
