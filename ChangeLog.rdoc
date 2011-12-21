@@ -1,0 +1,13 @@
+= ChangeLog for Zabby
+
+== v0.0.3 (2011/12/21)
+
+* Improve documentation and add all Zabbix API verbs
+
+== v0.0.2 (2011/12/20)
+
+* First public release.
+
+== v0.0.1 (2011/12/18)
+
+* Unpublished.

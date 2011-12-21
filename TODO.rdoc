@@ -1,0 +1,12 @@
+= TODO list for Zabby
+
+Zabby is still a young projet! There are many features missing and possible improvements:
+
+- Document the code with *Yard*
+- Write tests:
+  - Use RSpec
+  - Use a _webmock_ to simulate a Zabix Server, maybe *VCR*
+- Validate API verbs
+- Betting Exceptions and error handling
+- Add online help to the shell
+- Improve or merge +zabbysh+ and +zabbyrb+

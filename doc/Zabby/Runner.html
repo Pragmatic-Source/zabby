@@ -83,17 +83,22 @@
     
   
     
+      <dt class="r2">Includes:</dt>
+      <dd class="r2">Singleton</dd>
+      
+    
   
   
   
-    <dt class="r2 last">Defined in:</dt>
-    <dd class="r2 last">lib/zabby/runner.rb</dd>
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/zabby/runner.rb</dd>
   
 </dl>
 <div class="clear"></div>
 
 
 
+  
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
     
@@ -155,10 +160,11 @@ Returns the value of attribute connection.
 
 
 
+  
 
   
     <h2>
-      Instance Method Summary
+      Class Method Summary
       <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
     </h2>
 
@@ -167,7 +173,7 @@ Returns the value of attribute connection.
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get-instance_method" title="#get (instance method)">- (Object) <strong>get</strong>(args) </a>
+      <a href="#create_zobject-class_method" title="create_zobject (class method)">+ (Object) <strong>create_zobject</strong>(name, zmethods) </a>
     
 
     
@@ -180,31 +186,22 @@ Returns the value of attribute connection.
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'><p>
+Create a method mapping a Zabbix object.
+</p>
+</div></span>
   
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#host-instance_method" title="#host (instance method)">- (Object) <strong>host</strong>(args) </a>
-    
+    </ul>
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
 
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
+    <ul class="summary">
       
         <li class="public ">
   <span class="summary_signature">
@@ -406,7 +403,8 @@ Execute an irb like shell in which we can type Zabby commands.
     </ul>
   
 
-<div id="constructor_details" class="method_details_list">
+
+  <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
     <div class="method_details first">
@@ -434,30 +432,32 @@ A new instance of Runner
       <pre class="lines">
 
 
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52</pre>
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 37</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 75</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span>
   <span class='rubyid_@config ivar id'>@config</span> <span class='assign token'>=</span> <span class='rubyid_Zabby constant id'>Zabby</span><span class='colon2 op'>::</span><span class='rubyid_Config constant id'>Config</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span>
   <span class='rubyid_@connection ivar id'>@connection</span> <span class='assign token'>=</span> <span class='rubyid_Zabby constant id'>Zabby</span><span class='colon2 op'>::</span><span class='rubyid_Connection constant id'>Connection</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span>
   <span class='rubyid_@pure_binding ivar id'>@pure_binding</span> <span class='assign token'>=</span> <span class='rubyid_instance_eval identifier id'>instance_eval</span> <span class='string val'>&quot;binding&quot;</span>
+  <span class='rubyid_@zobject ivar id'>@zobject</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span> <span class='comment val'># List of Zabbix Object</span>
 
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_Object constant id'>Object</span><span class='dot token'>.</span><span class='rubyid_const_defined? fid id'>const_defined?</span><span class='lparen token'>(</span><span class='symbol val'>:Readline</span><span class='rparen token'>)</span>
     <span class='rubyid_@readline ivar id'>@readline</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
@@ -509,12 +509,12 @@ Returns the value of attribute config
       <pre class="lines">
 
 
-15
-16
-17</pre>
+18
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_config identifier id'>config</span>
   <span class='rubyid_@config ivar id'>@config</span>
@@ -553,12 +553,12 @@ Returns the value of attribute connection
       <pre class="lines">
 
 
-15
-16
-17</pre>
+18
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 15</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 18</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_connection identifier id'>connection</span>
   <span class='rubyid_@connection ivar id'>@connection</span>
@@ -572,164 +572,101 @@ Returns the value of attribute connection
   </div>
 
 
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="create_zobject-class_method">
+  
+    + (<tt>Object</tt>) <strong>create_zobject</strong>(name, zmethods) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    <p>
+Create a method mapping a Zabbix object.
+</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <h3>Parameters:</h3>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+Zabbix Object name (:item, :host, etc.)
+</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>zmethods</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>
+The list of supported verbs
+</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 43</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_create_zobject identifier id'>create_zobject</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_zmethods identifier id'>zmethods</span><span class='rparen token'>)</span>
+  <span class='rubyid_define_method identifier id'>define_method</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_@zobject ivar id'>@zobject</span><span class='lbrack token'>[</span><span class='rubyid_name identifier id'>name</span><span class='rbrack token'>]</span> <span class='opasgn op'>||=</span> <span class='rubyid_Zabby constant id'>Zabby</span><span class='colon2 op'>::</span><span class='rubyid_ZObject constant id'>ZObject</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_zmethods identifier id'>zmethods</span><span class='rparen token'>)</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
     
     
       <div class="method_details first">
-  <p class="signature first" id="get-instance_method">
-  
-    - (<tt>Object</tt>) <strong>get</strong>(args) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>args</span>
-      
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-Argument list for the Zabbix API.
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-<h3>Raises:</h3>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-87
-88
-89
-90</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 87</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_get identifier id'>get</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Expected a hash&quot;</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Hash constant id'>Hash</span>
-  <span class='lbrace token'>{</span> <span class='symbol val'>:get</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='rubyid_args identifier id'>args</span> <span class='rbrace token'>}</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="host-instance_method">
-  
-    - (<tt>Object</tt>) <strong>host</strong>(args) 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    
-
-  </div>
-</div>
-<div class="tags">
-  <h3>Parameters:</h3>
-<ul class="param">
-  
-    <li>
-      
-        <span class='name'>args</span>
-      
-      
-        <span class='type'>(<tt>Hash</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'><p>
-Function name and parameters for the Zabbix &quot;host&quot; type.
-</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-<h3>Raises:</h3>
-<ul class="raise">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>ArgumentError</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-93
-94
-95
-96
-97
-98</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 93</span>
-
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_host identifier id'>host</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span><span class='rparen token'>)</span>
-  <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Expected a hash&quot;</span><span class='rparen token'>)</span> <span class='rubyid_unless unless_mod kw'>unless</span> <span class='rubyid_args identifier id'>args</span><span class='dot token'>.</span><span class='rubyid_kind_of? fid id'>kind_of?</span> <span class='rubyid_Hash constant id'>Hash</span>
-  <span class='rubyid_meth identifier id'>meth</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='dot token'>.</span><span class='rubyid_keys identifier id'>keys</span><span class='dot token'>.</span><span class='rubyid_first identifier id'>first</span>
-  <span class='rubyid_params identifier id'>params</span> <span class='assign token'>=</span> <span class='rubyid_args identifier id'>args</span><span class='lbrack token'>[</span><span class='rubyid_meth identifier id'>meth</span><span class='rbrack token'>]</span>
-  <span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;Calling method 'host.#{meth}' with arguments #{params.to_json}&quot;</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="logged_in?-instance_method">
+  <p class="signature first" id="logged_in?-instance_method">
   
     - (<tt>Boolean</tt>) <strong>logged_in?</strong> 
   
@@ -763,12 +700,12 @@ Function name and parameters for the Zabbix &quot;host&quot; type.
       <pre class="lines">
 
 
-78
-79
-80</pre>
+117
+118
+119</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 78</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 117</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_logged_in? fid id'>logged_in?</span>
   <span class='rubyid_@connection ivar id'>@connection</span><span class='dot token'>.</span><span class='rubyid_logged_in? fid id'>logged_in?</span>
@@ -792,12 +729,12 @@ Function name and parameters for the Zabbix &quot;host&quot; type.
       <pre class="lines">
 
 
-70
-71
-72</pre>
+109
+110
+111</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 109</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_login identifier id'>login</span>
   <span class='rubyid_@connection ivar id'>@connection</span><span class='dot token'>.</span><span class='rubyid_login identifier id'>login</span><span class='lparen token'>(</span><span class='rubyid_@config ivar id'>@config</span><span class='rparen token'>)</span>
@@ -821,12 +758,12 @@ Function name and parameters for the Zabbix &quot;host&quot; type.
       <pre class="lines">
 
 
-74
-75
-76</pre>
+113
+114
+115</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 74</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 113</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_logout identifier id'>logout</span>
   <span class='rubyid_@connection ivar id'>@connection</span><span class='dot token'>.</span><span class='rubyid_logout identifier id'>logout</span>
@@ -899,16 +836,16 @@ A block containing commands to execute.
       <pre class="lines">
 
 
-102
-103
-104
-105
-106
-107
-108</pre>
+127
+128
+129
+130
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 102</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 127</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='rubyid_command_file identifier id'>command_file</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
   <span class='rubyid_unless unless kw'>unless</span> <span class='rubyid_command_file identifier id'>command_file</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -936,20 +873,20 @@ A block containing commands to execute.
       <pre class="lines">
 
 
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68</pre>
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 97</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_key_value identifier id'>key_value</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
   <span class='rubyid_if if kw'>if</span> <span class='rubyid_key_value identifier id'>key_value</span><span class='dot token'>.</span><span class='rubyid_nil? fid id'>nil?</span>
@@ -981,12 +918,12 @@ A block containing commands to execute.
       <pre class="lines">
 
 
-54
-55
-56</pre>
+93
+94
+95</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 54</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 93</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_setup identifier id'>setup</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span>
   <span class='rubyid_@config ivar id'>@config</span><span class='dot token'>.</span><span class='rubyid_setup identifier id'>setup</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span>
@@ -1035,28 +972,32 @@ Execute an irb like shell in which we can type Zabby commands.
       <pre class="lines">
 
 
-111
-112
-113
-114
-115
-116
-117
-118
-119
-120
-121
-122
-123
-124</pre>
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 111</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 136</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_shell identifier id'>shell</span>
   <span class='rubyid_raise identifier id'>raise</span> <span class='rubyid_RuntimeError constant id'>RuntimeError</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='string val'>&quot;Shell cannot run because 'readline' is missing.&quot;</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_@readline ivar id'>@readline</span>
 
-  <span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;** This is an experimental Zabbix Shell. Multiline commands do not work for e.g. **&quot;</span>
+  <span class='rubyid_puts identifier id'>puts</span> <span class='dstring node'>&quot;Zabby Shell #{Zabby::VERSION}&quot;</span>
+  <span class='rubyid_puts identifier id'>puts</span>
+  <span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;** This is a simple irb like Zabbix Shell. Multiline commands do not work for e.g. **&quot;</span>
   <span class='rubyid_loop identifier id'>loop</span> <span class='rubyid_do do kw'>do</span>
     <span class='rubyid_cmd identifier id'>cmd</span> <span class='assign token'>=</span> <span class='rubyid_Readline constant id'>Readline</span><span class='dot token'>.</span><span class='rubyid_readline identifier id'>readline</span><span class='lparen token'>(</span><span class='string val'>'zabby&gt; '</span><span class='rparen token'>)</span>
 
@@ -1086,12 +1027,12 @@ Execute an irb like shell in which we can type Zabby commands.
       <pre class="lines">
 
 
-82
-83
-84</pre>
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby/runner.rb', line 121</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_version identifier id'>version</span>
   <span class='rubyid_Zabby constant id'>Zabby</span><span class='colon2 op'>::</span><span class='rubyid_VERSION constant id'>VERSION</span>
@@ -1107,7 +1048,7 @@ Execute an irb like shell in which we can type Zabby commands.
 </div>
     
     <div id="footer">
-  Generated on Mon Dec 19 13:31:47 2011 by 
+  Generated on Wed Dec 21 11:46:14 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.4 (ruby-1.8.7).
 </div>

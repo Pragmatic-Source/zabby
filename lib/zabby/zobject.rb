@@ -15,7 +15,7 @@ module Zabby
 
     # Simulate methods on the object.
     # For example: "host.get", "item.create"..
-    # @zmethods is the list of valid methods.
+    # The instance variable @zmethods is the list of valid methods.
     def method_missing(zmethod, *args, &block)
       if @zmethods.include? zmethod
         Zabby::Runner.instance.connection.perform_request(@zname, zmethod, args.first)

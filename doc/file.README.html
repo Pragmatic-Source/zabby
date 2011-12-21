@@ -85,6 +85,23 @@ Ruby Zabbix libraries.
 
 </li>
 </ul>
+<h2>Features</h2>
+<ul>
+<li>Low level Ruby API that maps every Zabbix API (JSON RPC) to Ruby hashes.
+
+</li>
+<li>Higher level Ruby DSL, both available in pure Ruby and for writing
+configuration files.
+
+</li>
+<li>Supports SSL and authenticated HTTP proxies.
+
+</li>
+<li>Full featured IRB like shell included with Readline support. You can mix
+Zabbix instructions with Ruby calls transparently.
+
+</li>
+</ul>
 <h2>Examples</h2>
 <h3>API use</h3>
 <p>
@@ -96,7 +113,7 @@ The barebone API can be used in Ruby like this:
     <span class='rubyid_require identifier id'>require</span> <span class='string val'>&quot;pp&quot;</span>
 
     <span class='rubyid_z identifier id'>z</span> <span class='assign token'>=</span> <span class='rubyid_Zabby constant id'>Zabby</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span> <span class='rubyid_do do kw'>do</span>
-      <span class='rubyid_host identifier id'>host</span> <span class='string val'>&quot;https://monitoring.example.com&quot;</span>
+      <span class='rubyid_server identifier id'>server</span> <span class='string val'>&quot;https://monitoring.example.com&quot;</span>
       <span class='rubyid_user identifier id'>user</span> <span class='string val'>&quot;api_user&quot;</span>
       <span class='rubyid_password identifier id'>password</span> <span class='string val'>&quot;s3cr3t&quot;</span>
       <span class='rubyid_proxy_host identifier id'>proxy_host</span> <span class='string val'>&quot;http://10.10.10.10&quot;</span>
@@ -109,7 +126,7 @@ The barebone API can be used in Ruby like this:
     <span class='rubyid_pp identifier id'>pp</span> <span class='rubyid_z identifier id'>z</span><span class='dot token'>.</span><span class='rubyid_connection identifier id'>connection</span><span class='dot token'>.</span><span class='rubyid_perform_request identifier id'>perform_request</span><span class='lparen token'>(</span><span class='string val'>&quot;item&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;get&quot;</span><span class='comma token'>,</span> <span class='lbrace token'>{</span> <span class='string val'>&quot;host&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;master.example.com&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;output&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;shorten&quot;</span> <span class='rbrace token'>}</span><span class='rparen token'>)</span>
 </pre>
 <ul>
-<li>The <em>host</em>, <em>user</em> and <em>passord</em> are necessary.
+<li>The <em>server</em>, <em>user</em> and <em>passord</em> are necessary.
 
 </li>
 <li>If you don&#8217;t provide the path to the JSON-RPC script
@@ -120,27 +137,38 @@ The barebone API can be used in Ruby like this:
 
 </li>
 </ul>
-<h3>Shell (experimental)</h3>
+<h3>Shell</h3>
 <p>
-<b>zabbysh</b> is an experimental Zabbix Shell. It runs either
-interactively or can be used to execute a command file with the &quot;-f
-CMD_FILE&quot; option.
+<b>zabbysh</b> is an simple Zabbix Shell. It runs either interactively or
+can be used to execute a command file with the &quot;-f CMD_FILE&quot;
+option.
 </p>
 <p>
 If the command file does not end with &quot;exit&quot; then the program
 drops into the shell after executing the file.
 </p>
+<p>
+<b>zabbysh</b> provides Readline support but does no support advanced IRB
+features likes multi-lines instructions.
+</p>
+<p>
+<b>zabbyrb</b> is another Zabbix Shell based on <b>IRB</b>. It provides the
+whole power of IRB but may be less stable than zabbysh because the IRB API
+is poorly documented and hard to use.
+</p>
 <h4>Interactive shell</h4>
 <pre class="code">
     <span class='comment val'># zabbysh</span>
-    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_host identifier id'>host</span> <span class='string val'>&quot;https://monitoring.example.com&quot;</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_server identifier id'>server</span> <span class='string val'>&quot;https://monitoring.example.com&quot;</span>
     <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_user identifier id'>user</span> <span class='string val'>&quot;api_user&quot;</span>
     <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_password identifier id'>password</span> <span class='string val'>&quot;s3cr3t&quot;</span>
     <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_proxy_host identifier id'>proxy_host</span> <span class='string val'>&quot;http://10.10.10.10&quot;</span>
     <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_proxy_user identifier id'>proxy_user</span> <span class='string val'>&quot;john&quot;</span>
-    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_proxy_password identifier id'>proxy_password</span> <span class='string val'>&quot;prD0e&quot;</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_set identifier id'>set</span> <span class='rubyid_proxy_password identifier id'>proxy_password</span> <span class='string val'>&quot;D0e&quot;</span>
     <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_login identifier id'>login</span>
-    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_logged_in? fid id'>logged_in?</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_puts identifier id'>puts</span> <span class='rubyid_logged_in? fid id'>logged_in?</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_host identifier id'>host</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='string val'>&quot;filter&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='lbrace token'>{</span> <span class='string val'>&quot;host&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;monitor.example.com&quot;</span> <span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='string val'>&quot;output&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;extend&quot;</span>
+    <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_item identifier id'>item</span><span class='dot token'>.</span><span class='rubyid_get identifier id'>get</span> <span class='string val'>&quot;host&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;monitor.example.com&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;output&quot;</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;refer&quot;</span>
     <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='lbrack token'>[</span><span class='dot3 op'>...</span><span class='rbrack token'>]</span>
     <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_logout identifier id'>logout</span>
     <span class='rubyid_zabby identifier id'>zabby</span><span class='gt op'>&gt;</span> <span class='rubyid_exit identifier id'>exit</span>
@@ -155,10 +183,10 @@ Create a file and put the same instructions as above in it, then execute
 </pre>
 <h2>Requirements</h2>
 <ul>
-<li>Ruby 1.8.7. May run on Ruby 1.8.5
+<li>Ruby 1.8.5. IT BASICALLY RUNS ANYWHERE!
 
 </li>
-<li>JSON library: json_pure
+<li>JSON library: &#8216;json&#8217; or &#8216;json_pure&#8217;
 
 </li>
 <li>OptionParser
@@ -176,14 +204,23 @@ Create a file and put the same instructions as above in it, then execute
 <li>GitHub projet: https://github.com/Pragmatic-Source/zabby
 
 </li>
+<li>RubyGems.org homepage: https://rubygems.org/gems/zabby
+
+</li>
+<li>Author&#8217;s company: http://www.pragmatic-source.com
+
+</li>
 </ul>
+<h2>Contributing</h2>
+<p>
+All contributions are welcome. You can either open a ticket on Github, send
+a pull request with a patch or send an email to the author.
+</p>
 <h2>Author</h2>
 <p>
 Farzad FARID mailto:ffarid@pragmatic-source.com
 </p>
-<p>
-Thanks to:
-</p>
+<h3>Thanks to</h3>
 <ul>
 <li>Jean-Hadrien Chabran (jhchabran): Advices on code design.
 
@@ -225,7 +262,7 @@ LICENSE file.
 </div></div>
     
     <div id="footer">
-  Generated on Mon Dec 19 13:31:45 2011 by 
+  Generated on Wed Dec 21 11:46:12 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.4 (ruby-1.8.7).
 </div>

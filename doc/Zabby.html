@@ -73,7 +73,7 @@
   
     <dt class="r1 last">Defined in:</dt>
     <dd class="r1 last">lib/zabby/config.rb<span class="defines">,<br />
-  lib/zabby.rb,<br /> lib/zabby/runner.rb,<br /> lib/zabby/version.rb,<br /> lib/zabby/connection.rb,<br /> lib/zabby/exceptions.rb</span>
+  lib/zabby.rb,<br /> lib/zabby/runner.rb,<br /> lib/zabby/zobject.rb,<br /> lib/zabby/version.rb,<br /> lib/zabby/connection.rb,<br /> lib/zabby/exceptions.rb</span>
 </dd>
   
 </dl>
@@ -105,7 +105,7 @@
     
    
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Zabby/AuthenticationError.html" title="Zabby::AuthenticationError (class)">AuthenticationError</a></span>, <span class='object_link'><a href="Zabby/Config.html" title="Zabby::Config (class)">Config</a></span>, <span class='object_link'><a href="Zabby/ConfigurationError.html" title="Zabby::ConfigurationError (class)">ConfigurationError</a></span>, <span class='object_link'><a href="Zabby/Connection.html" title="Zabby::Connection (class)">Connection</a></span>, <span class='object_link'><a href="Zabby/ResponseCodeError.html" title="Zabby::ResponseCodeError (class)">ResponseCodeError</a></span>, <span class='object_link'><a href="Zabby/Runner.html" title="Zabby::Runner (class)">Runner</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Zabby/AuthenticationError.html" title="Zabby::AuthenticationError (class)">AuthenticationError</a></span>, <span class='object_link'><a href="Zabby/Config.html" title="Zabby::Config (class)">Config</a></span>, <span class='object_link'><a href="Zabby/ConfigurationError.html" title="Zabby::ConfigurationError (class)">ConfigurationError</a></span>, <span class='object_link'><a href="Zabby/Connection.html" title="Zabby::Connection (class)">Connection</a></span>, <span class='object_link'><a href="Zabby/ResponseCodeError.html" title="Zabby::ResponseCodeError (class)">ResponseCodeError</a></span>, <span class='object_link'><a href="Zabby/Runner.html" title="Zabby::Runner (class)">Runner</a></span>, <span class='object_link'><a href="Zabby/ZObject.html" title="Zabby::ZObject (class)">ZObject</a></span>
     
   
 </p>
@@ -117,7 +117,7 @@
         <dt id="VERSION-constant" class="">VERSION =
           
         </dt>
-        <dd><pre class="code"><span class='string val'>&quot;0.0.1&quot;</span>
+        <dd><pre class="code"><span class='string val'>&quot;0.0.3&quot;</span>
 </pre></dd>
       
     </dl>
@@ -178,15 +178,15 @@
       <pre class="lines">
 
 
-20
-21
-22</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/zabby.rb', line 20</span>
+      <pre class="code"><span class="info file"># File 'lib/zabby.rb', line 22</span>
 
 <span class='rubyid_def def kw'>def</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_init identifier id'>init</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span>
-  <span class='rubyid_Zabby constant id'>Zabby</span><span class='colon2 op'>::</span><span class='rubyid_Runner constant id'>Runner</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span>
+  <span class='rubyid_Zabby constant id'>Zabby</span><span class='colon2 op'>::</span><span class='rubyid_Runner constant id'>Runner</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span>
 <span class='rubyid_end end kw'>end</span>
 </pre>
     </td>
@@ -199,7 +199,7 @@
 </div>
     
     <div id="footer">
-  Generated on Mon Dec 19 13:31:47 2011 by 
+  Generated on Wed Dec 21 11:46:13 2011 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.4 (ruby-1.8.7).
 </div>

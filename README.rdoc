@@ -21,7 +21,7 @@ Zabby has the following caracteristics:
 
 - Low level Ruby API that maps every Zabbix API (JSON RPC) to Ruby hashes.
 - Higher level Ruby DSL, both available in pure Ruby and for writing configuration files.
-- Supports authenticated HTTP proxies.
+- Supports SSL and authenticated HTTP proxies.
 - Full featured IRB like shell included with Readline support. You can mix Zabbix instructions
   with Ruby calls transparently.
 
@@ -36,7 +36,7 @@ The barebone API can be used in Ruby like this:
     require "pp"
 
     z = Zabby.init do
-      host "https://monitoring.example.com"
+      server "https://monitoring.example.com"
       user "api_user"
       password "s3cr3t"
       proxy_host "http://10.10.10.10"
@@ -48,7 +48,7 @@ The barebone API can be used in Ruby like this:
     pp z.connection.perform_request("host", "get", { "filter" => { "host" => "master.example.com" } })
     pp z.connection.perform_request("item", "get", { "host" => "master.example.com", "output" => "shorten" })
 
-- The _host_, _user_ and _passord_ are necessary.
+- The _server_, _user_ and _passord_ are necessary.
 - If you don't provide the path to the JSON-RPC script "/api_jsonrpc.php" is appended
   to the URI automatically.
 - The <em>proxy_*</em> settings are optionnal.
@@ -71,14 +71,14 @@ to use.
 ==== Interactive shell
 
     # zabbysh
-    zabby> set host "https://monitoring.example.com"
+    zabby> set server "https://monitoring.example.com"
     zabby> set user "api_user"
     zabby> set password "s3cr3t"
     zabby> set proxy_host "http://10.10.10.10"
     zabby> set proxy_user "john"
     zabby> set proxy_password "D0e"
     zabby> login
-    zabby> logged_in?
+    zabby> puts logged_in?
     zabby> host.get "filter" => { "host" => "monitor.example.com" }, "output" => "extend"
     zabby> item.get "host" => "monitor.example.com", "output" => "refer"
     zabby> [...]
@@ -93,7 +93,7 @@ Create a file and put the same instructions as above in it, then execute *zabbys
 
 == Requirements
 
-- Ruby 1.8.5. It basically runs anywhere!
+- Ruby 1.8.5. IT BASICALLY RUNS ANYWHERE!
 - JSON library: 'json' or 'json_pure'
 - OptionParser
 - Readline (optionnal, used by the interactive shell)
@@ -102,6 +102,8 @@ Create a file and put the same instructions as above in it, then execute *zabbys
 
 - Main web site: http://zabby.org
 - GitHub projet: https://github.com/Pragmatic-Source/zabby
+- RubyGems.org homepage: https://rubygems.org/gems/zabby
+- Author's company: http://www.pragmatic-source.com
 
 == Contributing
 
