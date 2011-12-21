@@ -15,7 +15,7 @@ ZABBY_ROOT = File.expand_path('../../lib', __FILE__)
 $: << ZABBY_ROOT unless $:.include?(ZABBY_ROOT)
 
 require 'zabby'
-require "optparse"
+require 'optparse'
 require 'ostruct'
 require 'irb'
 require 'irb/completion'
