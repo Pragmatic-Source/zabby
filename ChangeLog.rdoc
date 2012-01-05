@@ -1,5 +1,16 @@
 = ChangeLog for Zabby
 
+List of visible changes:
+
+== v0.0.5 (2012/01/05)
+
+* Better command file parsing and add rcfile support.
+* Better handling of the default JSON RPC script name in the URL.
+* Add a 'loggedin?' alias for 'logged_in?'.
+* Ignore 'doc' directory.
+* List of docs to generate with Yard is now specified in .yardopts.
+* Improve Gemspec file.
+
 == v0.0.4 (2011/12/21)
 
 * Same as v0.0.3 that I could not publish on rubygems.org
