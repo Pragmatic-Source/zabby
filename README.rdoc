@@ -25,6 +25,41 @@ Zabby has the following caracteristics:
 - Full featured IRB like shell included with Readline support. You can mix Zabbix instructions
   with Ruby calls transparently.
 
+== Configuration
+
+The file <tt>~/.zabbyrc</tt> is read on startup unless the option "<tt>--no-rcfile</tt>" is
+used.
+
+=== Command line
+
+  --[no-]rcfile [CONFIG FILE]:  Configuration file to load on startup. Default is '~/.zabbyrc'. With the 'no' prefix no configuration file will be loaded.
+  -f, --extra-file COMMAND_FILE:    Execute the instructions in COMMAND_FILE
+
+=== Zabby configuration
+
+The following settings can be configured with the '+set+' command:
+[server]  Zabbix webservice URL. If the URL does not end with <tt>.php</tt> then
+          <tt>/api_jsonrpc.php</tt> is appended automatically.
+[user]    User login with +API+ rights on the Zabbix Server. If the account does not have
+          +API+ access the connection will be refused by Zabbix.
+[password] User password.
+[proxy_host] HTTP proxy.SSL is supported and the certificate validity is not checked. *Optional*
+[proxy_user] User authentication on the proxy. *Optional*
+[proxy_password] User password on the proxy. *Optional*
+
+=== Sample ".zabbyrc"
+
+This is a configuration <tt>.zabbyrc</tt> file example, it will be loaded at startup:
+
+    # Zabby configuration
+    set :server => "https://monitoring.example.com"
+    set :user => "api_user"
+    set :password => "s3cr3t"
+    set :proxy_host => "http://10.10.10.10"
+    set :proxy_user => "john"
+    set :proxy_password => "D0e"
+    login
+
 == Examples
 
 === API use

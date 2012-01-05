@@ -9,21 +9,32 @@ ZABBY_ROOT = File.expand_path('../../lib', __FILE__)
 $: << ZABBY_ROOT unless $:.include?(ZABBY_ROOT)
 
 require 'zabby'
-require "optparse"
+require 'optparse'
 require 'ostruct'
 
 options = OpenStruct.new
-options.file = nil
+options.rcfile = File.expand_path('~/.zabbyrc')
+options.extra_file = nil
 
 opts = OptionParser.new do |opts|
-  opts.banner = "Usage: zabbysh [options]"
+  opts.banner = <<EOT
+Usage: zabbysh [options] [script]
 
+  If no 'script' file is provided an interactive shell is started. Otherwise the script file
+  is executed. To load and execute a supplementary script file before the shell use the
+  '--extra-file' option.
+EOT
   opts.separator ""
   opts.separator "Specific options:"
 
-  opts.on("-f", "--file COMMAND_FILE",
+  opts.on("--[no-]rcfile [CONFIG FILE]",
+          "Configuration file to load on startup. Default is '~/.zabbyrc'." +
+              " With the 'no' prefix no configuration file will be loaded.") do |file|
+    options.rcfile = file || nil
+  end
+  opts.on("-f", "--extra-file COMMAND_FILE",
                 "Execute the instructions in COMMAND_FILE") do |file|
-          options.file = file
+          options.extra_file = file
   end
 
   opts.separator ""
@@ -45,24 +56,43 @@ EOT
   end
 end
 
-opts.parse!(ARGV)
-
+# Parse options, extract script to execute and initialize Zabby.
+begin
+  opts.parse!(ARGV)
+rescue OptionParser::ParseError => e
+  STDERR.puts("ERROR: #{e.message}.")
+  STDERR.puts opts
+  exit 1
+end
+script = ARGV.first
 z = Zabby.init
 
-if options.file
-  begin
-    z.run(options.file)
-  rescue SystemExit
-    exit 0
-  rescue Exception => e
-    puts "Exception #{e.class} -> #{e.message}"
-    e.backtrace.each do |t|
-      puts "   #{::File.expand_path(t)}"
+# Read & execute startup file and/or command file. The true/false indicates if
+# we should fail in case the file does not exist.
+[ [ options.rcfile, false ], [ options.extra_file, true ], [ script, true ] ].each do |file, fail_on_missing|
+  if file.nil?
+    # Do nothing
+  elsif File.exist?(file)
+    begin
+      z.run(file)
+    rescue SystemExit
+      exit 0
+    rescue Exception => e
+      puts "Exception #{e.class} -> #{e.message}"
+      e.backtrace.each do |t|
+        puts "   #{::File.expand_path(t)}"
+      end
+      exit 1
     end
-    exit 1
+  elsif fail_on_missing # File is missing but do not fail for '.zabbyrc'
+    raise RuntimeError, "Missing Zabby script '#{file}'."
   end
 end
 
-# We end up here even if a command file is provided if it doesn't end with "exit"
-z.shell
+
+# We start the shell if a command file is not provided
+if script.nil?
+  z.shell
+end
+
 exit 0
