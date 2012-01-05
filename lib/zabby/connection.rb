@@ -5,6 +5,9 @@
 
 module Zabby
   class Connection
+    # Name of the Zabbix RPC script
+    JSONRPC_SCRIPT = "/api_jsonrpc.php"
+
     attr_reader :uri, :request_path, :user, :password, :proxy_host, :proxy_user, :proxy_password
     attr_reader :auth
     attr_reader :request_id
@@ -30,7 +33,7 @@ module Zabby
         @proxy_user = config.proxy_user
         @proxy_password = config.proxy_password
       end
-      @request_path = @uri.path.empty? ? "/api_jsonrpc.php" : @uri.path
+      @request_path = @uri.path[-4,4] == '.php' ? @uri.path : @uri.path + JSONRPC_SCRIPT
       authenticate
     end
 
@@ -67,6 +70,7 @@ module Zabby
       }
     end
 
+    # Perform an authenticated request
     def perform_request(element, action, params)
       raise AuthenticationError.new("Not logged in") if !logged_in?
 
