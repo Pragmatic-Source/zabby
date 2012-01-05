@@ -128,7 +128,7 @@ module Zabby
     def run(command_file = nil, &block)
       unless command_file.nil?
         commands = File.read(command_file)
-        instance_eval(commands)
+        instance_eval(commands, command_file, 1)
       end
       instance_eval(&block) if block_given?
     end
