@@ -105,30 +105,57 @@ to use.
 
 ==== Interactive shell
 
+Provided you created a <tt>~/.zabbyrc</tt> configuration file with authentication settings
+you can launch the interactive shell and start talking to the Zabbix server:
+
     # zabbysh
-    zabby> set server "https://monitoring.example.com"
-    zabby> set user "api_user"
-    zabby> set password "s3cr3t"
-    zabby> set proxy_host "http://10.10.10.10"
-    zabby> set proxy_user "john"
-    zabby> set proxy_password "D0e"
-    zabby> login
-    zabby> puts logged_in?
+    Zabby Shell 0.0.5
+
+    ** This is a simple irb like Zabbix Shell. Multiline commands do not work for e.g. **
+    zabby> logged_in?
+    => true
     zabby> host.get "filter" => { "host" => "monitor.example.com" }, "output" => "extend"
+    => [{"snmp_errors_from"=>"0", "ipmi_port"=>"623", "outbytes"=>"0", "proxy_hostid"=>"0",
+     "maintenance_status"=>"0", "ipmi_password"=>"", "ipmi_privilege"=>"2",
+     "ipmi_disable_until"=>"0", "available"=>"1", "maintenances"=>[{"maintenanceid"=>"0"}],
+     "ipmi_error"=>"", "maintenanceid"=>"0", "useipmi"=>"0", "port"=>"10050", "useip"=>"1",
+     "ipmi_errors_from"=>"0", "maintenance_from"=>"0", "ipmi_ip"=>"", "hostid"=>"10017",
+     "ipmi_available"=>"0", "disable_until"=>"0", "ip"=>"127.0.0.1", "maintenance_type"=>"0",
+     "ipmi_authtype"=>"0", "inbytes"=>"0", "lastaccess"=>"0",
+     "host"=>"monitor.example.com", "snmp_error"=>"", "ipmi_username"=>"", "status"=>"0",
+     "dns"=>"monitor.example.com", "snmp_available"=>"0", "snmp_disable_until"=>"0",
+     "errors_from"=>"0", "error"=>""}]
     zabby> item.get "host" => "monitor.example.com", "output" => "refer"
+    => [{"itemid"=>"18435", "host"=>"monitor.example.com"},
+    {"itemid"=>"18436", "host"=>"monitor.example.com"},
+    {"itemid"=>"18438", "host"=>"monitor.example.com"},
+    {"itemid"=>"18439",....]
     zabby> [...]
     zabby> logout
+    => nil
     zabby> exit
+
+To execute a script file before dropping into the shell type:
+
+    # zabbysh --extra-file some_zabbix_cmds.txt
 
 ==== Execute a command script
 
-Create a file and put the same instructions as above in it, then execute *zabbysh*:
+Create a file and put the same instructions as above in it then execute *zabbysh*:
 
-    # zabbysh --file my_zabbix_commands.txt
+    # zabbysh my_zabbix_commands.zby
+
+No interactive shell will be launched.
+
+You can even create auto-executable scripts! Just add "<tt>#!/usr/bin/env zabbysh</tt>"
+on the first line of the script and make it executable with "<tt>chmod +x my_zabby_commands.zby</tt>".
+Now to execute the script you only have to type:
+
+    # ./my_zabbix_commands.py
 
 == Requirements
 
-- Ruby 1.8.5. IT BASICALLY RUNS ANYWHERE!
+- Ruby 1.8.5. <b>IT BASICALLY RUNS ANYWHERE!</b>
 - JSON library: 'json' or 'json_pure'
 - OptionParser
 - Readline (optionnal, used by the interactive shell)
@@ -142,7 +169,8 @@ Create a file and put the same instructions as above in it, then execute *zabbys
 
 == Contributing
 
-All contributions are welcome. You can either open a ticket on Github, send a pull request
+All contributions are welcome. You can either
+{open a ticket on Github}[https://github.com/Pragmatic-Source/zabby/issues], send a pull request
 with a patch or send an email to the author.
 
 == Author
