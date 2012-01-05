@@ -117,6 +117,7 @@ module Zabby
     def logged_in?
       @connection.logged_in?
     end
+    alias_method :loggedin?, :logged_in?
 
     def version
       Zabby::VERSION
