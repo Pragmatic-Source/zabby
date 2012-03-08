@@ -103,7 +103,7 @@ module Zabby
       # Send the request!
       response = http.request(request(message))
 
-      if response.code != "200" then
+      if response.code != "200"
         raise ResponseCodeError.new("Response code from [#{@uri}] is #{response.code}): #{response.body}")
       end
 
@@ -114,7 +114,7 @@ module Zabby
       #end
 
       # Check errors in zabbix answer. If error exist - raise exception Zabbix::Error
-      if (error = zabbix_response['error']) then
+      if (error = zabbix_response['error'])
         error_message = error['message']
         error_data = error['data']
         error_code = error['code']
