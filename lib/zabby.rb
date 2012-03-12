@@ -14,8 +14,9 @@ require 'pp'
 require 'zabby/version'
 require 'zabby/exceptions'
 require 'zabby/config'
-require 'zabby/zobject'
+require 'zabby/zclass'
 require 'zabby/connection'
+require 'zabby/shell_helpers'
 require 'zabby/runner'
 
 module Zabby
