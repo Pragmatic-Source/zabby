@@ -7,21 +7,28 @@
 module Zabby
   class Config
     SETTING_LIST = %w{server user password proxy_host proxy_user proxy_password}
-    
-    def initialize &block
-      setup(&block)
+
+    # Initialize Zabby configuration settings
+    # @todo Anything to configure here?
+    def initialize
+      # TODO Anything to configure here?
     end
 
-    def setup &block
-      instance_eval(&block) if block_given?
-    end
-
+    # Display configuration variables
     def list
+    puts "Zabby configuration"
+    puts "==================="
       SETTING_LIST.each do |k|
         puts "#{k} = #{instance_variable_get("@#{k}")}"
       end
+      nil
     end
 
+    # Dynamic setter and getter methods for the configuration variables.
+    # @param [String] name Setting name, ending with "=" in case we are setting a value
+    # @param [Array] args Setting value
+    # @param [Proc] block Unused
+    # @return [Object] Return the value set
     def method_missing(name, *args, &block)
       name = name.to_s.gsub(/=$/, '')
       raise ConfigurationError.new("Unknown setting '#{name}'") if !SETTING_LIST.include?(name.to_s)
