@@ -5,17 +5,17 @@ clean interface to the {Zabbix Web Services}[http://www.zabbix.com/documentation
 
 == Goals
 
-There already are Ruby Zabbix libraries but some of them are unfinished (and apparently
-abandonned) and some other's code is too complicated or poorly designed. This is why I decided
-to write another tool for which my primary goal is to keep the code design, the user interaction
-and application interface clean and simple.
-
 Zabby has the following caracteristics:
 - Works both as a Ruby API and a command line tool.
 - Uses an internal Ruby DSL (Domain Specific Langage) that give access to the full power of
   Ruby scripting in your configurarion files. No need for a specific configuration language.
 - Simple design: avoids spaghetti code, WTF and facepalm, unlike some other
   Ruby Zabbix libraries.
+
+There already are Ruby Zabbix libraries but some of them are unfinished (and apparently
+abandonned) and some other's code is too complicated or poorly designed. This is why I decided
+to write this tool for which my primary goal is to keep the code design the user interaction
+and application interface clean and simple.
 
 == Features
 
@@ -24,6 +24,7 @@ Zabby has the following caracteristics:
 - Supports SSL and authenticated HTTP proxies.
 - Full featured IRB like shell included with Readline support. You can mix Zabbix instructions
   with Ruby calls transparently.
+- Reads a configuration file on startup.
 
 == Configuration
 
@@ -62,33 +63,7 @@ This is a configuration <tt>.zabbyrc</tt> file example, it will be loaded at sta
 
 == Examples
 
-=== API use
-
-The barebone API can be used in Ruby like this:
-
-    require "rubygems"
-    require "zabby"
-    require "pp"
-
-    z = Zabby.init do
-      server "https://monitoring.example.com"
-      user "api_user"
-      password "s3cr3t"
-      proxy_host "http://10.10.10.10"
-      proxy_user "john"
-      proxy_password "D0e"
-    end
-    z.login
-
-    pp z.connection.perform_request("host", "get", { "filter" => { "host" => "master.example.com" } })
-    pp z.connection.perform_request("item", "get", { "host" => "master.example.com", "output" => "shorten" })
-
-- The _server_, _user_ and _passord_ are necessary.
-- If you don't provide the path to the JSON-RPC script "/api_jsonrpc.php" is appended
-  to the URI automatically.
-- The <em>proxy_*</em> settings are optionnal.
-
-=== Shell
+=== Zabby on the Command Line
 
 *zabbysh* is an simple Zabbix Shell. It runs either interactively or
 can be used to execute a command file with the "-f CMD_FILE" option.
@@ -99,7 +74,7 @@ the shell after executing the file.
 *zabbysh* provides Readline support but does no support advanced IRB features likes
 multi-lines instructions.
 
-*zabbyrb* is another Zabbix Shell based on *IRB*. It provides the whole power of IRB
+*Note*: *zabbyrb* is another Zabbix Shell based on *IRB*. It provides the whole power of IRB
 but may be less stable than zabbysh because the IRB API is poorly documented and hard
 to use.
 
@@ -109,12 +84,12 @@ Provided you created a <tt>~/.zabbyrc</tt> configuration file with authenticatio
 you can launch the interactive shell and start talking to the Zabbix server:
 
     # zabbysh
-    Zabby Shell 0.0.5
+    Zabby Shell 0.1.0
 
     ** This is a simple irb like Zabbix Shell. Multiline commands do not work for e.g. **
     zabby> logged_in?
     => true
-    zabby> host.get "filter" => { "host" => "monitor.example.com" }, "output" => "extend"
+    zabby> Host.get "filter" => { "host" => "monitor.example.com" }, "output" => "extend"
     => [{"snmp_errors_from"=>"0", "ipmi_port"=>"623", "outbytes"=>"0", "proxy_hostid"=>"0",
      "maintenance_status"=>"0", "ipmi_password"=>"", "ipmi_privilege"=>"2",
      "ipmi_disable_until"=>"0", "available"=>"1", "maintenances"=>[{"maintenanceid"=>"0"}],
@@ -125,7 +100,7 @@ you can launch the interactive shell and start talking to the Zabbix server:
      "host"=>"monitor.example.com", "snmp_error"=>"", "ipmi_username"=>"", "status"=>"0",
      "dns"=>"monitor.example.com", "snmp_available"=>"0", "snmp_disable_until"=>"0",
      "errors_from"=>"0", "error"=>""}]
-    zabby> item.get "host" => "monitor.example.com", "output" => "refer"
+    zabby> Item.get "host" => "monitor.example.com", "output" => "refer"
     => [{"itemid"=>"18435", "host"=>"monitor.example.com"},
     {"itemid"=>"18436", "host"=>"monitor.example.com"},
     {"itemid"=>"18438", "host"=>"monitor.example.com"},
@@ -137,7 +112,7 @@ you can launch the interactive shell and start talking to the Zabbix server:
 
 To execute a script file before dropping into the shell type:
 
-    # zabbysh --extra-file some_zabbix_cmds.txt
+    # zabbysh --extra-file some_zabbix_cmds.zby
 
 ==== Execute a command script
 
@@ -149,9 +124,56 @@ No interactive shell will be launched.
 
 You can even create auto-executable scripts! Just add "<tt>#!/usr/bin/env zabbysh</tt>"
 on the first line of the script and make it executable with "<tt>chmod +x my_zabby_commands.zby</tt>".
+
+For example create the script "my_zabbix_command.zby":
+
+    #!/usr/bin/env zabbysh
+    #
+    # Zabby configuration
+    set :server => "https://monitoring.example.com"
+    set :user => "api_user"
+    set :password => "s3cr3t"
+    set :proxy_host => "http://10.10.10.10"
+    set :proxy_user => "john"
+    set :proxy_password => "D0e"
+    login
+
+    hosts = Host.get "filter" => { "host" => "monitor.example.com" }, "output" => "extend"
+    h = hosts.first
+    puts "Host #{h['host']} has IP address #{h['ip']}"
+
+    exit 0
+
 Now to execute the script you only have to type:
 
-    # ./my_zabbix_commands.py
+    # ./my_zabbix_commands.zby
+
+=== API use
+
+The barebone API can be used in Ruby like this:
+
+    require "rubygems"
+    require "zabby"
+    require "pp"
+
+    z = Zabby.init do
+      set :server => "https://monitoring.example.com"
+      set :user => "api_user"
+      set :password => "s3cr3t"
+      set :proxy_host => "http://10.10.10.10"
+      set :proxy_user => "john"
+      set :proxy_password => "D0e"
+      login
+    end
+
+    pp z.run { Host.get "filter" => { "host" => "master.example.com" } }
+    pp z.run { Item.get "host" => "master.example.com", "output" => "shorten" }
+
+
+- The _server_, _user_ and _passord_ are necessary.
+- If you don't provide the path to the JSON-RPC script "/api_jsonrpc.php" is appended
+  to the URI automatically.
+- The <em>proxy_*</em> settings are optionnal.
 
 == Requirements
 
@@ -182,6 +204,7 @@ Farzad FARID mailto:ffarid@pragmatic-source.com
 - Jean-Hadrien Chabran (jhchabran): Advices on code design.
 - Nicolas Blanco (slainer68): Advices on code design and Triple Facepalming after reading other Ruby/Zabbix code.
 - Renaud Chaput (renchap): For suggesting the "zabby" name.
+- Folks on the irc channel #rubyonrails.fr@Freenode
 
 === Sources of inspiration
 

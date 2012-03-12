@@ -2,6 +2,15 @@
 
 List of visible changes:
 
+== v0.1.0 (unreleased)
+
+* Major refactoring: Zabbix items are now represented by classes instead
+  of class instances ("Host" vs. "host", "Item" vs. "item") and their
+  methods are now class methods.
+* Simplify code, remove unused or useless methods.
+* Move helper methods to their own module.
+* Update documentation and improve code samples.
+
 == v0.0.5 (2012/01/05)
 
 * Better command file parsing and add rcfile support.
