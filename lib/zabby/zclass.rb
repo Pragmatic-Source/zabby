@@ -6,8 +6,19 @@
 module Zabby
   # Create Zabbix classes as provided by the Zabbix API
   module ZClass
+    # List of available Zabbix classes
+    @zabbix_classes = []
+
     def self.included(base)
       base.extend(ClassMethods)
+      # Keep a list of Zabbix classes
+      @zabbix_classes << base.name.gsub(/^.*::/, '')
+    end
+
+    # Return the list of Zabbix classes
+    # @return [Array] List of Zabbix classes
+    def self.zabbix_classes
+      @zabbix_classes
     end
 
     module ClassMethods
