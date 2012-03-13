@@ -105,8 +105,8 @@ module Zabby
 
     # Raise a Zabby exception
     # @param [Hash] zabbix_response JSON formatted Zabbix response.
-    # @raises [Zabby::AuthenticationError] Authentication error.
-    # @raises [zabby::APIError] Generic Zabbix Web Services error.
+    # @raise [Zabby::AuthenticationError] Authentication error.
+    # @raise [zabby::APIError] Generic Zabbix Web Services error.
     def format_exception(zabbix_response)
       error = zabbix_response['error']
       error_message = error['message']
@@ -123,7 +123,7 @@ module Zabby
     # Query the Zabbix Web Services and extract the JSON response.
     # @param [Hash] message request in JSON format.
     # @return [Object] The Zabbix response (Hash, Boolean, etc.) in JSON format.
-    # @raises [Zabby::ResponseCodeError] HTTP error.
+    # @raise [Zabby::ResponseCodeError] HTTP error.
     def query_zabbix_rpc(message)
       # Send the request!
       http_response = http.request(request(message))
