@@ -59,11 +59,6 @@ module Zabby
 
   # Create all Zabbix object types and theirs methods.
 
-  class Host
-    include ZClass
-    add_zmethods :create, :delete, :exists, :get, :update
-  end
-
   class Action
     include ZClass
     add_zmethods :create, :delete, :exists, :get, :update
@@ -74,7 +69,7 @@ module Zabby
     add_zmethods :create, :delete, :get
   end
 
-  class Apiinfo
+  class APIInfo
     include ZClass
     add_zmethods :version
   end
