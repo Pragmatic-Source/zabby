@@ -57,9 +57,12 @@ module Zabby
     def shell
       raise RuntimeError.new("Shell cannot run because 'readline' is missing.") if !@readline
 
-      puts "Zabby Shell #{Zabby::VERSION}"
-      puts
-      puts "** This is a simple irb like Zabbix Shell. Multiline commands do not work for e.g. **"
+      puts <<HEADER
+Zabby Shell #{Zabby::VERSION}
+
+** This is a simple irb like Zabbix Shell. Multiline commands do not work for e.g. **
+Type "help" for online documentation.
+HEADER
       loop do
         cmd = Readline.readline('zabby> ')
 

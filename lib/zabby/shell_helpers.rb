@@ -10,27 +10,49 @@ module Zabby
   # - @config: Zabby::Config instance
   # - @connection: Zabby::Connection instance
   module ShellHelpers
-    # XXX I don't like this hack anymore..
-    ## Meta-create methods with the same name as the configuration settings.
-    ## This way we can write:
-    ##   set host "http://my.zabbix.server"
-    ## instead of:
-    ##   set :host => "http://my.zabbix.server"
-    ## or "set host" instead of "set :host"
-    ## All the created method does is return the second form which will be
-    ## used by "set".
-    #Zabby::Config::SETTING_LIST.each { |setting|
-    #  # TODO.rdoc: Ruby 1.8 does not support default values for block arguments..
-    #  # Writing "... do |value = nil|" would be more elegant.
-    #  define_method(setting) do |*args|
-    #    if args.empty?
-    #      setting.intern
-    #    else
-    #      { setting.intern => args.first }
-    #    end
-    #  end
-    #}
+    # Documentation for helpers.
+    # Each helper method definition must be preceded by a call to "desc" and a short
+    # online help for the method.
+    @helpers_doc = {}
+    @last_doc = nil
 
+    # Save the documentation for a method about to be defined.
+    # @param text [String] Documentation of the method following the call to "desc"
+    def self.desc(text)
+      @last_doc = text
+    end
+
+    # Push helper documentation for the method just defined in a hash.
+    # @param [Symbol] method Helper method to document
+    # @todo Display functions in alphabetical or arbitrary order.
+    def self.method_added(method)
+      if @last_doc.nil?
+        @helpers_doc[method.id2name] = "** UNDOCUMENTED FUNCTION **"
+      else
+        @helpers_doc[method.id2name] = @last_doc
+        @last_doc = nil
+      end
+    end
+
+    # Show the Shell helpers documentation
+    def self.show_helpers_doc
+      help = <<EOT
+Available commands:
+==================
+
+EOT
+      @helpers_doc.each do |name, text|
+        help += name + ":\n"
+        help += '-' * name.size + "\n"
+        help += text + "\n\n"
+      end
+      help
+    end
+
+    desc %q{Set or query Zabby parameters.
+- "set" without argument displays all parameters.
+- "set <param>" shows the value of <param>
+- "set <param> => <value>" set <param> to <value>}
     def set(key_value = nil)
       if key_value.nil?
         @config.list
@@ -43,21 +65,38 @@ module Zabby
       end
     end
 
+    desc %q{Login to the Zabbix server.
+The parameters 'server', 'user' and 'password' must be defined.}
     def login
       @connection.login(@config)
     end
 
+    desc 'Logout from the Zabbix server'
     def logout
       @connection.logout
     end
 
+    desc 'Return true if we are connected to the Zabbix server, false otherwise.'
     def logged_in?
       @connection.logged_in?
     end
+
+    desc 'Alias for "logged_in?".'
     alias_method :loggedin?, :logged_in?
 
+    desc 'Show Zabby version.'
     def version
       Zabby::VERSION
+    end
+
+    desc 'Return the list of available Zabbix Classes (object types).'
+    def zabbix_classes
+      Zabby::ZClass.zabbix_classes
+    end
+
+    desc 'Show this help text.'
+    def help
+      puts Zabby::ShellHelpers.show_helpers_doc
     end
   end
 end
