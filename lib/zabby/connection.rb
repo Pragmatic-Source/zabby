@@ -71,6 +71,7 @@ module Zabby
     end
 
     # Perform an authenticated request
+    # @return [Object] The Zabbix response (Hash, Boolean, etc.) in JSON format.
     def perform_request(element, action, params)
       raise AuthenticationError.new("Not logged in") if !logged_in?
 
@@ -78,6 +79,9 @@ module Zabby
       query_zabbix_rpc(message)
     end
 
+    # Prepare a JSON request HTTP Post format
+    # @param [Hash] message A hash with all parameters for the Zabbix web service.
+    # @return [Net::HTTP::Post] Message ready to be POSTed.
     def request(message)
       req = Net::HTTP::Post.new(@request_path)
       req.add_field('Content-Type', 'application/json-rpc')
@@ -99,34 +103,41 @@ module Zabby
       http
     end
 
+    # Raise a Zabby exception
+    # @param [Hash] zabbix_response JSON formatted Zabbix response.
+    # @raises [Zabby::AuthenticationError] Authentication error.
+    # @raises [zabby::APIError] Generic Zabbix Web Services error.
+    def format_exception(zabbix_response)
+      error = zabbix_response['error']
+      error_message = error['message']
+      error_data = error['data']
+      error_code = error['code']
+
+      if error_data == "Login name or password is incorrect"
+        raise AuthenticationError.new(error_message, error_code, error_data)
+      else
+        raise APIError.new(error_message, error_code, error_data)
+      end
+    end
+
+    # Query the Zabbix Web Services and extract the JSON response.
+    # @param [Hash] message request in JSON format.
+    # @return [Object] The Zabbix response (Hash, Boolean, etc.) in JSON format.
+    # @raises [Zabby::ResponseCodeError] HTTP error.
     def query_zabbix_rpc(message)
       # Send the request!
-      response = http.request(request(message))
+      http_response = http.request(request(message))
 
-      if response.code != "200"
-        raise ResponseCodeError.new("Response code from [#{@uri}] is #{response.code}): #{response.body}")
+      # Check for HTTP errors.
+      if http_response.code != "200"
+        raise ResponseCodeError.new("Error from #{@uri}", http_response.code, http_response.body)
       end
 
-      zabbix_response = JSON.parse(response.body)
+      zabbix_response = JSON.parse(http_response.body)
 
-      #if not ( responce_body_hash['id'] == id ) then
-      # raise Zabbix::InvalidAnswerId.new("Wrong ID in zabbix answer")
-      #end
-
-      # Check errors in zabbix answer. If error exist - raise exception Zabbix::Error
-      if (error = zabbix_response['error'])
-        error_message = error['message']
-        error_data = error['data']
-        error_code = error['code']
-
-        e_message = "Code: [" + error_code.to_s + "]. Message: [" + error_message +
-                "]. Data: [" + error_data + "]."
-
-        if error_data == "Login name or password is incorrect"
-          raise AuthenticationError.new(e_message)
-        else
-          raise StandardError.new(e_message)
-        end
+      # Check for Zabbix errors.
+      if zabbix_response['error']
+        format_exception(zabbix_response)
       end
 
       zabbix_response['result']

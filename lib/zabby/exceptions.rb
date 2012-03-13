@@ -4,7 +4,23 @@
 # License:: Simplified BSD License
 
 module Zabby
-  class ResponseCodeError < StandardError; end
-  class AuthenticationError < StandardError; end
+  class APIError < StandardError
+    attr_reader :code, :msg, :data
+
+    def initialize(msg, code = nil, data = nil)
+      @msg = msg
+      @code = code
+      @data = data
+    end
+
+    def message
+      text = "#{msg}"
+      text += ": #{data}" if data
+      text += " (code: #{code})" if code
+      text
+    end
+  end
+  class ResponseCodeError < APIError; end
+  class AuthenticationError < APIError; end
   class ConfigurationError < StandardError; end
 end
