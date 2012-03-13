@@ -26,12 +26,19 @@ and application interface clean and simple.
   with Ruby calls transparently.
 - Reads a configuration file on startup.
 
+== Changes
+
+See the [ChangeLog.rdoc] file.
+
 == Configuration
 
-The file <tt>~/.zabbyrc</tt> is read on startup unless the option "<tt>--no-rcfile</tt>" is
+All the settings can be used interactively or written in a configuration file. The file
+<tt>~/.zabbyrc</tt> is read on startup unless the option "<tt>--no-rcfile</tt>" is
 used.
 
 === Command line
+
+The main configuration parameters are:
 
   --[no-]rcfile [CONFIG FILE]:  Configuration file to load on startup. Default is '~/.zabbyrc'. With the 'no' prefix no configuration file will be loaded.
   -f, --extra-file COMMAND_FILE:    Execute the instructions in COMMAND_FILE
