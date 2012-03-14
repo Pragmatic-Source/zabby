@@ -11,7 +11,6 @@ module Zabby
     # Initialize Zabby configuration settings
     # @todo Anything to configure here?
     def initialize
-      # TODO Anything to configure here?
     end
 
     # Display configuration variables
