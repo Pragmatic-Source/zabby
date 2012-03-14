@@ -21,6 +21,8 @@ require 'zabby/runner'
 
 module Zabby
   def self.init &block
-    Zabby::Runner.instance &block
+    z = Zabby::Runner.instance
+    z.run(&block) if block_given?
+    z
   end
 end

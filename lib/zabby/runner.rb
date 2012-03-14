@@ -20,13 +20,10 @@ module Zabby
 
     attr_reader :config, :connection
 
-    def initialize &block
+    def initialize
       @config = Zabby::Config.new
       @connection = Zabby::Connection.new
       @pure_binding = instance_eval "binding"
-
-      # Configure the application
-      run(&block) if block_given?
 
       # Configure Readline for the shell, if available
       if Object.const_defined?(:Readline)
