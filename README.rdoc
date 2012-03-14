@@ -94,6 +94,7 @@ you can launch the interactive shell and start talking to the Zabbix server:
     Zabby Shell 0.1.0
 
     ** This is a simple irb like Zabbix Shell. Multiline commands do not work for e.g. **
+    Type "help" for online documentation.
     zabby> logged_in?
     => true
     zabby> Host.get "filter" => { "host" => "monitor.example.com" }, "output" => "extend"
@@ -121,13 +122,16 @@ To execute a script file before dropping into the shell type:
 
     # zabbysh --extra-file some_zabbix_cmds.zby
 
+===== Online help
+
+Type *help* to get a brief description of available commands.
+
 ==== Execute a command script
 
-Create a file and put the same instructions as above in it then execute *zabbysh*:
+To execute a script non interactively create a file and put the same
+instructions as above in it then execute *zabbysh*:
 
     # zabbysh my_zabbix_commands.zby
-
-No interactive shell will be launched.
 
 You can even create auto-executable scripts! Just add "<tt>#!/usr/bin/env zabbysh</tt>"
 on the first line of the script and make it executable with "<tt>chmod +x my_zabby_commands.zby</tt>".
@@ -151,7 +155,7 @@ For example create the script "my_zabbix_command.zby":
 
     exit 0
 
-Now to execute the script you only have to type:
+Now to execute the script you just have to type:
 
     # ./my_zabbix_commands.zby
 
