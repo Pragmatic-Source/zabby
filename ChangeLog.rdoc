@@ -2,6 +2,12 @@
 
 List of visible changes:
 
+== v0.1.1 (2012/03/14)
+
+* Initialization code (the argument given to "Zabby.init") was not executed.
+* Update documentation and code sample for the barebone API ot get it working on
+  Ruby 1.8.x.
+
 == v0.1.0 (2012/03/14)
 
 * Major refactoring: Zabbix items are now represented by classes instead

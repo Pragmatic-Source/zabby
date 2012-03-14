@@ -177,14 +177,20 @@ The barebone API can be used in Ruby like this:
       login
     end
 
-    pp z.run { Host.get "filter" => { "host" => "master.example.com" } }
-    pp z.run { Item.get "host" => "master.example.com", "output" => "shorten" }
+    pp z.run { Zabby::Host.get "filter" => { "host" => "master.example.com" } }
+    pp z.run { Zabby::Item.get "host" => "master.example.com", "output" => "shorten" }
 
 
 - The _server_, _user_ and _passord_ are necessary.
 - If you don't provide the path to the JSON-RPC script "/api_jsonrpc.php" is appended
   to the URI automatically.
 - The <em>proxy_*</em> settings are optionnal.
+
+==== Note
+
+When using the barebone API you have to prefix the Zabbix classes (Host, Item, Trigger, etc.) with the "Zabby::"
+namespace, otherwise Ruby won't find the classes. This is apparently the way Ruby 1.8.x looks up constants, the
+problem should not happen with Ruby 1.9.x...
 
 == Requirements
 
