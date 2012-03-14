@@ -2,7 +2,7 @@
 
 List of visible changes:
 
-== v0.1.0 (unreleased)
+== v0.1.0 (2012/03/14)
 
 * Major refactoring: Zabbix items are now represented by classes instead
   of class instances ("Host" vs. "host", "Item" vs. "item") and their
@@ -10,6 +10,10 @@ List of visible changes:
 * Simplify code, remove unused or useless methods.
 * Move helper methods to their own module.
 * Update documentation and improve code samples.
+* Online "help" command.
+* Get rid of the elegant but buggy "set <param> <value>" syntax, the only
+  valid syntax for setting parameters is "set :<param> => <value>".
+* Improve exceptions definition.
 
 == v0.0.5 (2012/01/05)
 
