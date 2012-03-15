@@ -35,7 +35,7 @@ module Zabby
     end
 
     # Show the Shell helpers documentation
-    def self.show_helpers_doc
+    def self.helpers_doc
       help = <<EOT
 Available commands:
 ==================
@@ -96,7 +96,7 @@ The parameters 'server', 'user' and 'password' must be defined.}
 
     desc 'Show this help text.'
     def help
-      puts Zabby::ShellHelpers.show_helpers_doc
+      puts Zabby::ShellHelpers.helpers_doc
     end
   end
 end
