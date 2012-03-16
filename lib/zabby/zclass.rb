@@ -28,9 +28,9 @@ module Zabby
       # Name of the current class without the namespace
       # @return [String]
       # @example
-      #   Zabby::Host.object_name => "host"
-      def object_name
-        @object_name ||= self.name.gsub(/^.*::/, '').downcase
+      #   Zabby::Host.object_name => "Host"
+      def class_name
+        @class_name ||= self.name.split(/::/).last.downcase
       end
 
       # Add the list of Web Service methods to the current class.
@@ -52,7 +52,7 @@ module Zabby
       # @raise [NoMethodError] Raised on invalid method names.
       def method_missing(zmethod, *args, &block)
         if @zmethods.include? zmethod
-          Zabby::Runner.instance.connection.perform_request(object_name, zmethod, args.first)
+          Zabby::Runner.instance.connection.perform_request(class_name, zmethod, args.first)
         else
           super
         end
