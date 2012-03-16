@@ -61,9 +61,9 @@ module Zabby
       # Human representation of the Zabbix Class
       # @return [String] Class representation
       # @example
-      #   Host.inspect => "<Zabbix Object 'host', methods: create, delete, exists, get, update>"
+      #   Host.inspect => "<Zabby::Host methods=(create, delete, exists, get, update)>"
       def inspect
-        "<Zabbix Object '#{object_name}', methods: #{@zmethods.join(', ')}>"
+        "<#{name} methods=(#{@zmethods.join(', ')})>"
       end
     end
   end
