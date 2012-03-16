@@ -24,6 +24,8 @@ module Zabby
     module ClassMethods
       # List of valid Web Service methods for the current Zabbix Object
       attr_reader :zmethods
+      # The id field name for the model ("actionid", "hostid", etc.)
+      attr_reader :id
 
       # Name of the current class without the namespace
       # @return [String]
@@ -31,6 +33,22 @@ module Zabby
       #   Zabby::Host.object_name => "Host"
       def class_name
         @class_name ||= self.name.split(/::/).last.downcase
+      end
+
+      # Human representation of the Zabbix Class
+      # @return [String] Class representation
+      # @example
+      #   Host.inspect => "<Zabby::Host methods=(create, delete, exists, get, update)>"
+      def inspect
+        "<#{name} methods=(#{@zmethods.join(', ')})>"
+      end
+
+      private
+
+      # Set the name of the primary key
+      # @param key [String] Primary key name
+      def primary_key(key)
+        @id = key.to_sym
       end
 
       # Add the list of Web Service methods to the current class.
@@ -57,14 +75,6 @@ module Zabby
           super
         end
       end
-
-      # Human representation of the Zabbix Class
-      # @return [String] Class representation
-      # @example
-      #   Host.inspect => "<Zabby::Host methods=(create, delete, exists, get, update)>"
-      def inspect
-        "<#{name} methods=(#{@zmethods.join(', ')})>"
-      end
     end
   end
 
@@ -72,11 +82,13 @@ module Zabby
 
   class Action
     include ZClass
+    primary_key :actionid
     add_zmethods :create, :delete, :exists, :get, :update
   end
 
   class Alert
     include ZClass
+    primary_key :alertid
     add_zmethods :create, :delete, :get
   end
 
@@ -87,106 +99,127 @@ module Zabby
 
   class Application
     include ZClass
+    primary_key :applicationid
     add_zmethods :create, :delete, :exists, :get, :massAdd, :update
   end
 
   class Event
     include ZClass
+    primary_key :eventid
     add_zmethods :acknowledge, :create, :delete, :get
   end
 
   class Graph
     include ZClass
+    primary_key :graphid
     add_zmethods :create, :delete, :exists, :get, :update
   end
 
   class Graphitem
     include ZClass
+    primary_key :gitemid
     add_zmethods :get
   end
 
   class History
     include ZClass
+    primary_key :id # TODO Verify. The online documentation is not clear.
     add_zmethods :delete, :get
   end
 
   class Host
     include ZClass
+    primary_key :hostid
     add_zmethods :create, :delete, :exists, :get, :update
   end
 
   class Hostgroup
     include ZClass
+    primary_key :groupid
     add_zmethods :create, :delete, :exists, :get, :massAdd, :massRemove, :massUpdate, :update
   end
 
   class Image
     include ZClass
+    primary_key :imageid
     add_zmethods :create, :delete, :exists, :get, :update
   end
 
   class Item
     include ZClass
+    primary_key :itemid
     add_zmethods :create, :delete, :exists, :get, :update
   end
 
   class Maintenance
     include ZClass
+    primary_key :maintenanceid
     add_zmethods :create, :delete, :exists, :get, :update
   end
 
   class Map
     include ZClass
+    primary_key :sysmapid
     add_zmethods :create, :delete, :exists, :get, :update
   end
 
   class Mediatype
     include ZClass
+    primary_key :mediatypeid
     add_zmethods :create, :delete, :get, :update
   end
 
   class Proxy
     include ZClass
+    primary_key :proxyid
     add_zmethods :get
   end
 
   class Screen
     include ZClass
+    primary_key :screenid
     add_zmethods :create, :delete, :get, :update
   end
 
   class Script
     include ZClass
+    primary_key :scriptid
     add_zmethods :create, :delete, :execute, :get, :update
   end
 
   class Template
     include ZClass
+    primary_key :templateid
     add_zmethods :create, :delete, :exists, :get, :massAdd, :massRemove, :massUpdate, :update
   end
 
   class Trigger
     include ZClass
+    primary_key :triggerid
     add_zmethods :addDependencies, :create, :delete, :deleteDependencies, :exists, :get, :update
   end
 
   class User
     include ZClass
+    primary_key :userid
     add_zmethods :addMedia, :authenticate, :create, :delete, :deleteMedia, :get, :login, :logout, :update, :updateMedia, :updateProfile
   end
 
   class Usergroup
     include ZClass
+    primary_key :usrgrpid
     add_zmethods :create, :delete, :exists, :get, :massAdd, :massRemove, :massUpdate, :update
   end
 
   class Usermacro
     include ZClass
+    primary_key :hostmacroid
     add_zmethods :createGlobal, :deleteGlobal, :deleteHostMacro, :get, :massAdd, :massRemove, :massUpdate, :updateGlobal
   end
 
   class Usermedia
     include ZClass
+    primary_key :mediatypeid
     add_zmethods :get
   end
 
