@@ -2,6 +2,10 @@
 
 List of visible changes:
 
+== v0.1.2 (unreleased)
+
+* Add tests.
+
 == v0.1.1 (2012/03/14)
 
 * Initialization code (the argument given to "Zabby.init") was not executed.
