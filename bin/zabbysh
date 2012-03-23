@@ -63,13 +63,15 @@ end
 # Parse options, extract optional script to execute and initialize Zabby.
 # Do not reorder commandline argument otherwise zabbysh's arguments will
 # get mixed up with the script's argument.
-ENV['POSIXLY_CORRECT'] = '1'
 begin
+  ENV['POSIXLY_CORRECT'] = '1'
   opts.parse!(ARGV)
 rescue OptionParser::ParseError => e
   STDERR.puts("ERROR: #{e.message}.")
   STDERR.puts opts
   exit 1
+ensure
+  ENV['POSIXLY_CORRECT'] = nil
 end
 
 # Now ARGV only contains the script's optional arguments.
