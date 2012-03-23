@@ -17,29 +17,32 @@ options.rcfile = File.expand_path('~/.zabbyrc')
 options.extra_file = nil
 
 opts = OptionParser.new do |opts|
-  opts.banner = <<EOT
-Usage: zabbysh [options] [script]
+  opts.banner = <<'EOT'
+Usage: zabbysh [zabbysh options] [script [script options]]
 
-  If no 'script' file is provided an interactive shell is started. Otherwise the script file
-  is executed. To load and execute a supplementary script file before the shell use the
-  '--extra-file' option.
+  if no 'script' file is provided an interactive shell is started.
+  Otherwise the script file is executed. To load and execute a
+  supplementary script file before the shell use the '--extra-file'
+  option.
+
+  HOW TO PASS ARGUMENTS TO THE SCRIPT
+  -----------------------------------
+
+  The Zabbysh script can have its own command line arguments. Just prepend
+  '--' before the arguments to separate them from Zabbysh's own arguments.
 EOT
   opts.separator ""
-  opts.separator "Specific options:"
+  opts.separator "Zabbysh specific options:"
 
   opts.on("--[no-]rcfile [CONFIG FILE]",
-          "Configuration file to load on startup. Default is '~/.zabbyrc'." +
+          "Configuration file to load on startup.\n\tDefault is '~/.zabbyrc'." +
               " With the 'no' prefix no configuration file will be loaded.") do |file|
     options.rcfile = file || nil
   end
-  opts.on("-f", "--extra-file COMMAND_FILE",
-                "Execute the instructions in COMMAND_FILE") do |file|
+  opts.on("-f", "--extra-file CMD_FILE",
+                "Execute the instructions in CMD_FILE") do |file|
           options.extra_file = file
   end
-
-  opts.separator ""
-  opts.separator "Common options:"
-
 
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
@@ -57,7 +60,10 @@ EOT
   end
 end
 
-# Parse options, extract script to execute and initialize Zabby.
+# Parse options, extract optional script to execute and initialize Zabby.
+# Do not reorder commandline argument otherwise zabbysh's arguments will
+# get mixed up with the script's argument.
+ENV['POSIXLY_CORRECT'] = '1'
 begin
   opts.parse!(ARGV)
 rescue OptionParser::ParseError => e
@@ -65,7 +71,9 @@ rescue OptionParser::ParseError => e
   STDERR.puts opts
   exit 1
 end
-script = ARGV.first
+
+# Now ARGV only contains the script's optional arguments.
+script = ARGV.shift
 z = Zabby.init
 
 # Read & execute startup file and/or command file. The true/false indicates if
