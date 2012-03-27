@@ -6,7 +6,10 @@ Zabby is still a young projet! There are many features missing and possible impr
 - Write tests:
   - Use RSpec
   - Use a _webmock_ to simulate a Zabix Server, maybe *VCR*
-- Validate API verbs
+- Validate API verbs and parameters
 - Betting Exceptions and error handling
-- Add online help to the shell
+- Improve online help in the shell:
+  - Order help entries
+  - Document Zabbix classes
 - Improve or merge +zabbysh+ and +zabbyrb+
+- Document command line parsing
