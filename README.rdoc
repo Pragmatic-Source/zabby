@@ -173,7 +173,7 @@ The barebone API can be used in Ruby like this:
       set :server => "https://monitoring.example.com"
       set :user => "api_user"
       set :password => "s3cr3t"
-      # The proxy settings are of coure optional
+      # The proxy settings are of course optional
       set :proxy_host => "http://10.10.10.10"
       set :proxy_user => "john"
       set :proxy_password => "D0e"
