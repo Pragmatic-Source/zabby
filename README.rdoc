@@ -159,6 +159,8 @@ Now to execute the script you just have to type:
 
     # ./my_zabbix_commands.zby
 
+Zabbysh script can have their own command line parameters (with libs like 'optparse').
+
 === API use
 
 The barebone API can be used in Ruby like this:
@@ -171,6 +173,7 @@ The barebone API can be used in Ruby like this:
       set :server => "https://monitoring.example.com"
       set :user => "api_user"
       set :password => "s3cr3t"
+      # The proxy settings are of coure optional
       set :proxy_host => "http://10.10.10.10"
       set :proxy_user => "john"
       set :proxy_password => "D0e"
@@ -222,6 +225,7 @@ Farzad FARID mailto:ffarid@pragmatic-source.com
 - Nicolas Blanco (slainer68): Advices on code design and Triple Facepalming after reading other Ruby/Zabbix code.
 - Renaud Chaput (renchap): For suggesting the "zabby" name.
 - Folks on the irc channel #rubyonrails.fr@Freenode
+- Beta testers: A-Kaser, gaetronik.
 
 === Sources of inspiration
 

@@ -2,6 +2,14 @@
 
 List of visible changes:
 
+== v0.1.2 (2012/03/27)
+
+* Older Zabbix 1.8.x used "user.authenticate" instead of "user.login", we must try both methods.
+* Improve command line parsing. It is now easier to pass parameters to a "zabbysh" script withtout
+  having to prepend "--".
+* Make some methods private.
+* Internal: add an primary key to Zabby classes (not used yet).
+
 == v0.1.1 (2012/03/14)
 
 * Initialization code (the argument given to "Zabby.init") was not executed.

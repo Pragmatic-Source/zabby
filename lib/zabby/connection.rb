@@ -55,6 +55,12 @@ module Zabby
                                     'user' => @user,
                                     'password' => @password)
       @auth = query_zabbix_rpc(auth_message)
+    rescue Zabby::APIError
+      # Older Zabbix 1.8.x used a different authentication method. You have to guess...
+      auth_message = format_message('user', 'authenticate',
+                                    'user' => @user,
+                                    'password' => @password)
+      @auth = query_zabbix_rpc(auth_message)
     rescue Exception => e
       @auth = nil
       raise e
