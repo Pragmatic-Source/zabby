@@ -139,6 +139,12 @@ module Zabby
     add_zmethods :create, :delete, :exists, :get, :massAdd, :massRemove, :massUpdate, :update
   end
 
+  class Hostinterface
+    include ZClass
+    primary_key :interfaceid
+    add_zmethods :create, :delete, :exists, :get, :update
+  end
+
   class Image
     include ZClass
     primary_key :imageid
