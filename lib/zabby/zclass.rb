@@ -181,10 +181,23 @@ module Zabby
     add_zmethods :create, :delete, :get, :update
   end
 
+  class Screenitem
+    include ZClass
+    primary_key :screenitemid
+    add_zmethods :create, :delete, :get, :update, :updatebyposition, :isreadable, :iswritable,
+  end
+
   class Script
     include ZClass
     primary_key :scriptid
     add_zmethods :create, :delete, :execute, :get, :update
+  end
+
+  #zabbix 2.0 for it-services 
+  class Service
+    include ZClass
+    primary_key :serviceid
+    add_zmethods :adddependencies, :addtimes, :create, :delete, :deletedependencies, :deletetimes, :get, :getsla, :isreadable, :iswritable, :update
   end
 
   class Template
