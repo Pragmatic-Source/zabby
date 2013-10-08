@@ -123,7 +123,7 @@ module Zabby
 
   class History
     include ZClass
-    primary_key :id # TODO Verify. The online documentation is not clear.
+    primary_key :id # TODO Verify. The online documentation is not clear. note: for zabbix 2.2 needs History object and removed the "history.delete" 
     add_zmethods :delete, :get
   end
 
