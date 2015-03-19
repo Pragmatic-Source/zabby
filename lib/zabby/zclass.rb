@@ -136,7 +136,7 @@ module Zabby
   class Hostgroup
     include ZClass
     primary_key :groupid
-    add_zmethods :create, :delete, :exists, :get, :massAdd, :massRemove, :massUpdate, :update
+    add_zmethods :create, :delete, :exists, :get, :massAdd, :massRemove, :massUpdate, :update, :isreadable, :iswritable
   end
 
   class Image
