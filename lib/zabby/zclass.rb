@@ -103,6 +103,31 @@ module Zabby
     add_zmethods :create, :delete, :exists, :get, :massAdd, :update
   end
 
+  class Configuration
+    include ZClass
+    add_zmethods :import, :export
+  end
+
+  class DHost
+    include ZClass
+    add_zmethods :exists, :get
+  end
+
+  class DService
+    include ZClass
+    add_zmethods :exists, :get
+  end
+
+  class DCheck
+    include ZClass
+    add_zmethods :get
+  end
+
+  class DRule
+    include ZClass
+    add_zmethods :create, :delete, :exists, :get, :isReadable, :isWritable, :update
+  end
+
   class Event
     include ZClass
     primary_key :eventid
@@ -112,7 +137,7 @@ module Zabby
   class Graph
     include ZClass
     primary_key :graphid
-    add_zmethods :create, :delete, :exists, :get, :update
+    add_zmethods :create, :delete, :exists, :get, :getObjects, :update
   end
 
   class Graphitem
@@ -121,34 +146,77 @@ module Zabby
     add_zmethods :get
   end
 
+  class GraphPrototype
+    include ZClass
+    primary_key :graphid
+    add_zmethods :create, :delete, :exists, :get, :getObjects, :update
+  end
+
   class History
     include ZClass
     primary_key :id # TODO Verify. The online documentation is not clear.
     add_zmethods :delete, :get
   end
 
+  class HTTPTest
+    include ZClass
+    primary_key :httptestid
+    add_zmethods :create, :delete, :get, :isReadable, :isWritable, :update
+  end
+
   class Host
     include ZClass
     primary_key :hostid
-    add_zmethods :create, :delete, :exists, :get, :update
+    add_zmethods :create, :delete, :exists, :get, :getObjects, :isReadable, :isWritable, :massAdd, :massRemove, :massUpdate :update
   end
 
   class Hostgroup
     include ZClass
     primary_key :groupid
-    add_zmethods :create, :delete, :exists, :get, :massAdd, :massRemove, :massUpdate, :update, :isreadable, :iswritable
+    add_zmethods :create, :delete, :exists, :get, :getObjects, :isReadable, :isWritable, :massAdd, :massRemove, :massUpdate :update
   end
+
+  class Hostinterface
+    include ZClass
+	primary_key :interfaceid
+	add_zmethods :create, :delete, :exists, :get, :massAdd, :massRemove, :replaceHostInterfaces, :update
+  end
+  
+  class HostPrototype
+    include ZClass
+    primary_key :hostid
+    add_zmethods :create, :delete, :get, :isReadable, :isWritable, :update
+  end
+
 
   class Image
     include ZClass
     primary_key :imageid
-    add_zmethods :create, :delete, :exists, :get, :update
+    add_zmethods :create, :delete, :exists, :get, :getObjects :update
   end
 
   class Item
     include ZClass
     primary_key :itemid
-    add_zmethods :create, :delete, :exists, :get, :update
+    add_zmethods :create, :delete, :exists, :get, :getObjects, :isReadable, :isWritable :update
+  end
+
+  class ItemPrototype
+    include ZClass
+    primary_key :itemid
+    add_zmethods :create, :delete, :exists, :get, :isReadable, :isWritable :update
+  end
+
+  class Service
+    include ZClass
+    primary_key :serviceid
+    add_zmethods :addDependencies, :addTimes, :create, :delete, :deleteDependencies, :deleteTimes, :get, :getSLA, :isReadable, :isWritable, :update
+  end
+
+  class DiscoveryRule
+    include ZClass
+    primary_key :itemid
+    add_zmethods :copy, :create, :delete, :exists, :get, :isReadable, :isWritable, :update
   end
 
   class Maintenance
@@ -160,7 +228,7 @@ module Zabby
   class Map
     include ZClass
     primary_key :sysmapid
-    add_zmethods :create, :delete, :exists, :get, :update
+    add_zmethods :create, :delete, :exists, :get, :getObjects, :isReadable, :isWritable, :update
   end
 
   class Mediatype
@@ -172,49 +240,72 @@ module Zabby
   class Proxy
     include ZClass
     primary_key :proxyid
-    add_zmethods :get
+    add_zmethods :create, :delete, :get, :isReadable, :isWritable, :update
   end
 
   class Screen
     include ZClass
     primary_key :screenid
-    add_zmethods :create, :delete, :get, :update
+    add_zmethods :create, :delete, :exists, :get, :update
+  end
+
+  class ScreenItem
+    include ZClass
+    primary_key :screenitemid
+    add_zmethods :create, :delete, :get, :isReadable, :isWritable, :update, :updateByPosition
   end
 
   class Script
     include ZClass
     primary_key :scriptid
-    add_zmethods :create, :delete, :execute, :get, :update
+    add_zmethods :create, :delete, :execute, :get, :getScriptsByHost, :update
   end
 
   class Template
     include ZClass
     primary_key :templateid
-    add_zmethods :create, :delete, :exists, :get, :massAdd, :massRemove, :massUpdate, :update
+    add_zmethods :create, :delete, :exists, :get, :getObjects, :isReadable, :isWritable, :massAdd, :massRemove, :massUpdate, :update
+  end
+
+  class TemplateScreen
+    include ZClass
+    primary_key
+    add_zmethods :copy, :create, :delete, :exists, :get, :isReadable, :isWritable, :update
+  end
+
+  class TemplateScreenItem
+    include ZClass
+    primary_key :templateid
+    add_zmethods :get
   end
 
   class Trigger
     include ZClass
     primary_key :triggerid
-    add_zmethods :addDependencies, :create, :delete, :deleteDependencies, :exists, :get, :update
+    add_zmethods :addDependencies, :create, :delete, :deleteDependencies, :exists, :get, :getObjects, :isReadable, :isWritable, :update
+  end
+
+  class TriggerPrototype
+    include ZClass
+    add_zmethods :create, :delete, :get, :update
   end
 
   class User
     include ZClass
     primary_key :userid
-    add_zmethods :addMedia, :authenticate, :create, :delete, :deleteMedia, :get, :login, :logout, :update, :updateMedia, :updateProfile
+    add_zmethods :addMedia, :authenticate, :create, :delete, :deleteMedia, :get, :isReadable, :isWritable, :login, :logout, :update, :updateMedia, :updateProfile
   end
 
   class Usergroup
     include ZClass
     primary_key :usrgrpid
-    add_zmethods :create, :delete, :exists, :get, :massAdd, :massRemove, :massUpdate, :update
+    add_zmethods :create, :delete, :exists, :get, :getObjects, :isReadable, :isWritable, :massAdd, :massRemove, :massUpdate, :update
   end
 
   class Usermacro
     include ZClass
     primary_key :hostmacroid
-    add_zmethods :createGlobal, :deleteGlobal, :deleteHostMacro, :get, :massAdd, :massRemove, :massUpdate, :updateGlobal
+    add_zmethods :create, :createGlobal, :delete, :deleteGlobal, :deleteHostMacro, :get, :massAdd, :massRemove, :massUpdate, :update, :updateGlobal
   end
 
   class Usermedia
