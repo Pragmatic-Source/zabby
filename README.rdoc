@@ -13,7 +13,7 @@ Zabby has the following caracteristics:
   Ruby Zabbix libraries.
 
 There already are Ruby Zabbix libraries but some of them are unfinished (and apparently
-abandonned) and some other's code is too complicated or poorly designed. This is why I decided
+abandoned) and some other's code is too complicated or poorly designed. This is why I decided
 to write this tool for which my primary goal is to keep the code design the user interaction
 and application interface clean and simple.
 
